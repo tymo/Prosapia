@@ -1,0 +1,56 @@
+<html ng-app="prosapia">
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title>Prosapia</title>
+        <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/ui.css">
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/moment/moment.js"></script>
+
+        <script src="js/controller/prosapiaCtrl.js"></script>
+        <script src="js/directives/uiDateDirective.js"></script> 
+        <script src="js/directives/uiTimeDirective.js"></script> 
+
+        <script src="js/directives/medicineInput.js"></script>
+        <script src="js/directives/medicineList.js"></script>                
+        <script src="js/directives/medicineItem.js"></script>
+
+        <script src="js/directives/dosageInput.js"></script>
+        <script src="js/directives/dosageList.js"></script>                
+        <script src="js/directives/dosageItem.js"></script>
+
+        <!--Tabs-->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">        
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+            $(function () {
+                $("#tabs").tabs();
+            });
+
+        </script>  
+        <!--Tabs--> 
+    </head>
+    <body ng-controller="prosapiaCtrl">             
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-1">Medicamentos</a></li>
+                <li><a href="#tabs-2">Dosagens</a></li>
+            </ul>
+            <div id="tabs-1">
+                <div class="jumbotron">
+                    <h3>Medicamentos</h3>                    
+                    <div>                        
+                        <medicine-Input event-bus="eventBus"></medicine-input>
+                        <medicine-list event-bus="eventBus"></medicine-list>                
+                    </div>
+                </div>
+            </div>
+            <div id="tabs-2">
+                <dosage-Input event-bus="eventBus"></dosage-input>
+                <dosage-list event-bus="eventBus"></dosage-list>                
+            </div>            
+        </div>
+    </body>
+</html>

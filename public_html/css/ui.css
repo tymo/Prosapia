@@ -1,0 +1,90 @@
+.removeButton {
+    background-color: blueviolet;
+    width: 35PX;
+    height: 35px;
+}
+
+.removeButton:hover {
+    background-color: red;
+}
+
+.urgent {
+    background-color: red;
+}
+
+.warn {
+    background-color: yellow;
+}
+
+.fine {
+    background-color: green;
+}
+
+.tableProsapia {
+    border: solid 1px;
+}
+
+.listHeader {
+    font-size: 20px;
+    border: solid 1px;
+    text-align: center; 
+    background-color: lightskyblue;
+}
+
+.tableRoot {
+    font-size: 20px;
+    border: solid 1px;
+    width: 600px;
+    text-align: center;
+}
+
+.tableArrow {
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    border: solid 1px;
+    background-color: blue;
+}
+
+td {
+    border: solid 1px;
+    width: 40px;
+    height: 40px;
+}
+
+.cellIgnored {
+    background-color: white;    
+}
+
+.cellSelected {
+    background-color: yellow;
+    cursor: default;
+}
+
+.cellNoEvent {
+    background-color: white;
+    cursor: pointer;   
+}
+
+.cellHasEvent {
+    background-color: blue;
+    cursor: pointer;    
+}
+
+.textnput {
+    font-size: 18px;
+}
+
+.negrito {
+    font-weight: bold;
+}
+
+.addButton {
+    display: inline-block;
+    font-size: 18px;  
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    color: white;
+    background-color: blue;
+}
