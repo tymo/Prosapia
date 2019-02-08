@@ -3,14 +3,14 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope) {
     $scope.app = "Prosapia";
 
     $scope.dosageInputFields = [
-        {type: 'TXT', name: 'name', model: 'dosage.name', placeholder: 'Nome'},                
-        {type: 'BTN', listener: 'insertDosage', dataObject: 'dosage'}
+        {type: 'TXT', name: 'name', model: 'data.name', placeholder: 'Nome'},                
+        {type: 'BTN', listName: 'dosageList', dataObject: 'data'}
     ];
     
     $scope.medicineInputFields = [
-        {type: 'TXT', name: 'name', model: 'medicine.name', placeholder: 'Nome'},        
-        {type: 'SLT', model: 'medicine.dosage', options: 'dosage.name for dosage in dosageList track by dosage.id', option: 'Selecione a forma de dosagem'},
-        {type: 'BTN', listener: 'insertMedicine', dataObject: 'medicine'}
+        {type: 'TXT', name: 'name', model: 'data.name', placeholder: 'Nome'},        
+        {type: 'SLT', model: 'data.dosage', options: 'dosage.name for dosage in List.getList(listName) track by dosage.id', option: 'Selecione a forma de dosagem'},
+        {type: 'BTN', listener: 'insertMedicine', dataObject: 'data'}
     ];
 
     $scope.listeners = {};

@@ -19,6 +19,7 @@
         <script src="js/directives/dosageItem.js"></script>
 
         <script src="js/directives/inputBuilder.js"></script>
+        <script src="js/service/data.js"></script>
 
         <!--Tabs-->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">        
@@ -41,9 +42,8 @@
             <div id="tabs-1">
                 <div class="jumbotron">
                     <h3>Medicamentos</h3>                    
-                    <div>                        
-                        <!--<medicine-Input event-bus="eventBus"></medicine-input>-->
-                        <input-builder event-bus="eventBus", input-fields="medicineInputFields"></input-builder>                    
+                    <div>                                                
+                        <input-builder event-bus="eventBus", input-fields="medicineInputFields" list-name="'dosageList'"></input-builder>                    
                         <medicine-list event-bus="eventBus"></medicine-list>                
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                 <h3>Dosagens</h3>                    
                 <div>
                     <input-builder event-bus="eventBus", input-fields="dosageInputFields"></input-builder>                    
-                    <dosage-list event-bus="eventBus"></dosage-list>                
+                    <dosage-list event-bus="eventBus", list-name="'dosageList'"></dosage-list>                
                 </div>
             </div>            
         </div>
