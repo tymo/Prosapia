@@ -11,7 +11,7 @@ angular.module("prosapia").directive('medicineList', function ($compile, List) {
                 <th class="listHeader">Nome</th>\
                 <th class="listHeader">Dosagem</th>\
                 <th class="listHeader">Excluir</th></tr>\
-                <tr class="tr-medicine-item" medicine-item event-bus="eventBus" medicine="medicine" \
+                <tr class="tr-medicine-i.tem" medicine-item event-bus="eventBus" medicine="medicine" \
                 ng-repeat="medicine in List.getList(listName)"></tr></table>'
     };
     function link(scope, element) {
@@ -20,7 +20,7 @@ angular.module("prosapia").directive('medicineList', function ($compile, List) {
         scope.hasMedicine = function () {
             return (scope.List.getList(scope.listName) != null);
         };
-        $compile(scope.element.contents())(scope);
+//        $compile(scope.element.contents())(scope);
     }
     ;
 }

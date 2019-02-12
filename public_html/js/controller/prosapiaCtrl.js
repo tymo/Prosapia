@@ -3,14 +3,26 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope) {
     $scope.app = "Prosapia";
 
     $scope.dosageInputFields = [
-        {type: 'TXT', name: 'name', model: 'data.name', placeholder: 'Nome'},                
+        {type: 'TXT', name: 'name', model: 'data.name', placeholder: 'Nome'},
         {type: 'BTN', listName: 'dosageList', dataObject: 'data'}
     ];
-    
+
     $scope.medicineInputFields = [
-        {type: 'TXT', name: 'name', model: 'data.name', placeholder: 'Nome'},        
+        {type: 'TXT', name: 'name', model: 'data.name', placeholder: 'Nome'},
         {type: 'SLT', model: 'data.dosage', options: 'dosage.name for dosage in List.getList(\'dosageList\') track by dosage.id', option: 'Selecione a forma de dosagem'},
         {type: 'BTN', listName: 'medicineList', dataObject: 'data'}
+    ];
+
+    $scope.movementTypeInputFields = [
+        {type: 'TXT', name: 'name', model: 'data.name', placeholder: 'Nome'},
+        {type: 'BTN', listName: 'movementTypeList', dataObject: 'data'}
+    ];
+
+    $scope.movementInputFields = [        
+        {type: 'SLT', model: 'data.medicine', options: 'medicine.desc for medicine in List.getList(\'medicineList\') track by medicine.id', option: 'Selecione um medicamento'},
+        {type: 'TXT', name: 'quantidade', model: 'data.quantity', placeholder: 'Quantidade'},
+        {type: 'SLT', model: 'data.type', options: 'type.name for type in List.getList(\'movementTypeList\') track by type.id', option: 'Selecione o tipo de movimentaçaõ'},
+        {type: 'BTN', listName: 'movementList', dataObject: 'data'}
     ];
 
     $scope.listeners = {};
@@ -44,16 +56,4 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope) {
             });
         },
     }
-
-    $scope.medidaInputFields = [
-        {type: 'TXT', name: 'name', model: 'medicine.name', placeholder: 'Nome'},
-        {type: 'BTN', listener: 'insertPatient', dataObject: 'medicine'}
-    ];
-
-    $scope.movementInputFields = [
-        {type: 'TXT', name: 'name', model: 'doctor.name', placeholder: 'Nome'},
-        {type: 'BTN', listener: 'insertDoctor', dataObject: 'doctor'}
-//        {type: 'BTD'}
-    ];
-
 });

@@ -19,7 +19,7 @@ angular.module("prosapia").directive('dosageList', function ($compile, List) {
         scope.hasDosage = function () {            
             return (scope.List.getList(scope.listName) != null);
         };
-        $compile(scope.element.contents())(scope);
+//        $compile(scope.element.contents())(scope);
         scope.List.addItem(scope.listName, {name: "Mg"});
         scope.List.addItem(scope.listName, {name: "Ml"});
         scope.List.addItem(scope.listName, {name: "Caixa(30)"});

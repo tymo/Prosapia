@@ -26,6 +26,9 @@ angular.module("prosapia").factory('List', function () {
             if (!this.store.get(key)) {
                 this.initList(key);
             }
+            if(key === "medicineList") {
+                item.desc = item.name+"("+item.dosage.name+")";
+            }
             keyID = key + ID;
             if (!this.store.get(keyID)) {
                 this.store.set(keyID, 1);
