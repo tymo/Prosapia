@@ -19,18 +19,26 @@ angular.module("prosapia").factory('List', function () {
             this.listeners[property] = func;
         }
     }
-    return {        
-        store : (this.store || new Store()),
-        addItem : function (key, item) {
+    const ID = "_ID";
+    return {
+        store: (this.store || new Store()),
+        addItem: function (key, item) {
             if (!this.store.get(key)) {
                 this.initList(key);
             }
+            keyID = key + ID;
+            if (!this.store.get(keyID)) {
+                this.store.set(keyID, 1);
+            }
+            nid = this.store.get(keyID);                        
+            item.id = nid;            
+            this.store.set(keyID, ++nid);            
             if (!this.store.get(key).includes(item)) {
                 this.store.get(key).push(item);
             }
         },
 
-        removeItem : function (key, item) {
+        removeItem: function (key, item) {
             if (this.store.get(key)) {
                 if (this.store.get(key).includes(item)) {
                     delete this.store.get(key).splice(this.store.get(key).indexOf(item), 1)
@@ -39,16 +47,15 @@ angular.module("prosapia").factory('List', function () {
             }
         },
 
-        getList : function(key) {
-            if (key && this.store != null) {
-                return this.store.get(key);
+        getList: function (key) {
+            if (!this.store.get(key)) {
+                this.initList(key);
             }
+            return (this.store.get(key).length > 0 ? this.store.get(key) : null);
         },
 
-        initList : function(key) {
+        initList: function (key) {
             this.store.set(key, []);
         }
-    }    
-//    l = new List();
-//    return list;
+    }
 });

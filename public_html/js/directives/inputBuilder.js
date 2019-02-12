@@ -18,7 +18,7 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, List) {
             {type: 'TXT', content: '<input type="text" name="<name>" ng-model="<model>" placeholder="<placeholder>" class="textInput"/>'},
             {type: 'TXD', content: '<input type="text" ng-model="<model>" name="<name>" placeholder="<placeholder>" ui-date/>'},
             {type: 'DTP', content: '<input type="date" name="<name>" ng-model="<model>" placeholder="<placeholder>" class="textInput" />'},
-            {type: 'BTN', content: '<button class="addButton" name="sendButton" ng-click="List.addItem(\'listName\', <dataObject>)">Adicionar</button>'},
+            {type: 'BTN', content: '<button class="addButton" name="sendButton" ng-click="addItem(listName, <dataObject>)">Adicionar</button>'},
             {type: 'SLT', content: '<select class="form-control" ng-model="<model>" ng-options="<options>">\
              <option value=""><option></option>\
              </select>'}
@@ -43,19 +43,16 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, List) {
             }
         });
         
+        scope.List = List;
+        
         $(element).find("form").prepend(cont);
         $compile(element.contents())(scope);
 
-        scope.addItem = function (dataObject) {
-            List.addItem(scope.listName, dataObject);
+        scope.addItem = function (listName, dataObject) {
+            if(listName) {
+                List.addItem(listName, dataObject);
+            }
+            delete scope.data;
         }
-
-//        scope.setDosageList = function (dosageList) {
-//            if (!scope.dosageList) {
-//                scope.dosageList = dosageList;
-//            }
-//        }
-//        scope.dosageList = List.list;
-//        scope.eventBus.addListener("setDosageList", scope.setDosageList);
     }
 });

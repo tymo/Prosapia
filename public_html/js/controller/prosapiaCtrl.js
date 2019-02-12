@@ -9,8 +9,8 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope) {
     
     $scope.medicineInputFields = [
         {type: 'TXT', name: 'name', model: 'data.name', placeholder: 'Nome'},        
-        {type: 'SLT', model: 'data.dosage', options: 'dosage.name for dosage in List.getList(listName) track by dosage.id', option: 'Selecione a forma de dosagem'},
-        {type: 'BTN', listener: 'insertMedicine', dataObject: 'data'}
+        {type: 'SLT', model: 'data.dosage', options: 'dosage.name for dosage in List.getList(\'dosageList\') track by dosage.id', option: 'Selecione a forma de dosagem'},
+        {type: 'BTN', listName: 'medicineList', dataObject: 'data'}
     ];
 
     $scope.listeners = {};
