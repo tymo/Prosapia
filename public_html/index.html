@@ -12,13 +12,15 @@
         <script src="js/directives/uiDateDirective.js"></script> 
         <script src="js/directives/uiTimeDirective.js"></script> 
 
-        <script src="js/directives/medicineInput.js"></script>
         <script src="js/directives/medicineList.js"></script>                
         <script src="js/directives/medicineItem.js"></script>
 
-        <script src="js/directives/dosageInput.js"></script>
         <script src="js/directives/dosageList.js"></script>                
         <script src="js/directives/dosageItem.js"></script>
+
+        <script src="js/component/inputBuilder.js"></script>       
+        <script src="js/component/element/FormElement.js"></script>       
+        <script src="js/service/List.js"></script>
 
         <!--Tabs-->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">        
@@ -41,15 +43,18 @@
             <div id="tabs-1">
                 <div class="jumbotron">
                     <h3>Medicamentos</h3>                    
-                    <div>                        
-                        <medicine-Input event-bus="eventBus"></medicine-input>
-                        <medicine-list event-bus="eventBus"></medicine-list>                
+                    <div>                                                
+                        <input-builder event-bus="eventBus", input-fields="medicineInputFields" list-name="'medicineList'"></input-builder>                    
+                        <medicine-list event-bus="eventBus", list-name="'medicineList'"></medicine-list>                
                     </div>
                 </div>
             </div>
             <div id="tabs-2">
-                <dosage-Input event-bus="eventBus"></dosage-input>
-                <dosage-list event-bus="eventBus"></dosage-list>                
+                <h3>Dosagens</h3>                    
+                <div>
+                    <input-builder event-bus="eventBus", input-fields="dosageInputFields", list-name="'dosageList'"></input-builder>                    
+                    <dosage-list event-bus="eventBus", list-name="'dosageList'"></dosage-list>                
+                </div>
             </div>            
         </div>
     </body>

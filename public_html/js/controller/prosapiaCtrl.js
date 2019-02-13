@@ -1,6 +1,17 @@
 angular.module("prosapia", []);
-angular.module("prosapia").controller("prosapiaCtrl", function ($scope) {
+angular.module("prosapia").controller("prosapiaCtrl", function ($scope, FormElement) {
     $scope.app = "Prosapia";
+
+    $scope.dosageInputFields = [
+        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeholder: 'Nome'},
+        {type: FormElement.BUTTONSUBMIT, listName: 'dosageList'}
+    ];
+
+    $scope.medicineInputFields = [
+        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeholder: 'Nome'},
+        {type: FormElement.COMBOBOX, model: 'dosage', options: 'dosage.name for dosage in List.getList(\'dosageList\') track by dosage.id', option: 'Selecione a forma de dosagem'},
+        {type: FormElement.BUTTONSUBMIT, listName: 'medicineList'}
+    ];
 
     $scope.listeners = {};
     var listeners = [];
@@ -33,16 +44,5 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope) {
             });
         },
     }
-
-    $scope.medidaInputFields = [
-        {type: 'TXT', name: 'name', model: 'medicine.name', placeholder: 'Nome'},                             
-        {type: 'BTN', listener: 'insertPatient', dataObject: 'medicine'}
-    ];
-
-    $scope.movementInputFields = [
-        {type: 'TXT', name: 'name', model: 'doctor.name', placeholder: 'Nome'},        
-        {type: 'BTN', listener: 'insertDoctor', dataObject: 'doctor'}
-//        {type: 'BTD'}
-    ];
 
 });

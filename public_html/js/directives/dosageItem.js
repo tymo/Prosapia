@@ -1,4 +1,4 @@
-angular.module("prosapia").directive('dosageItem', function () {
+angular.module("prosapia").directive('dosageItem', function (List) {
     return {
         scope: {eventBus: "=", dosage: "="},
         link: link,
@@ -8,10 +8,11 @@ angular.module("prosapia").directive('dosageItem', function () {
         <td><button class="removeButton" ng-click="removeDosage(dosage)">X</button></td>'
     };
 
-    function link(scope, element) {        
+    function link(scope, element) {
+        scope.dosage;
         scope.element = element;              
         scope.removeDosage = function (dosage) {
-            scope.eventBus.fireEvent("deleteDosage", dosage);
+            List.removeItem('dosageList', dosage);            
         };
     }
 });
