@@ -3,14 +3,14 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, FormElem
     $scope.app = "Prosapia";
 
     $scope.dosageInputFields = [
-        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeholder: 'Nome'},
-        {type: FormElement.BUTTONSUBMIT, listName: 'dosageList'}
+        {type: FormElement.TEXTINPUT, id: 'txbDosage', name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
+        {type: FormElement.BUTTONSUBMIT, id: 'btnAddDosage', class: "addButton", click: "addItem(\'dosageList\', data, $event)", data: "data"}
     ];
 
     $scope.medicineInputFields = [
-        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeholder: 'Nome'},
-        {type: FormElement.COMBOBOX, model: 'dosage', options: 'dosage.name for dosage in List.getList(\'dosageList\') track by dosage.id', option: 'Selecione a forma de dosagem'},
-        {type: FormElement.BUTTONSUBMIT, listName: 'medicineList'}
+        {type: FormElement.TEXTINPUT, id: 'txbMedicine', name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
+        {type: FormElement.SELECT, id: "cbxDosage", model: 'dosage', options: 'dosage.name for dosage in List.getList(\'dosageList\') track by dosage.id', option: 'Selecione a forma de dosagem', option: "Selecione uma forma de dosagem"},
+        {type: FormElement.BUTTONSUBMIT, id: 'btnAddMedicine', class: "addButton", click: "addItem(\'medicineList\', data, $event)", data: "data"}
     ];
 
     $scope.listeners = {};
