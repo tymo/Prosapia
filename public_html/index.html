@@ -15,11 +15,20 @@
         <script src="js/directives/medicineList.js"></script>
         <script src="js/directives/medicineItem.js"></script>
 
+        <script src="js/directives/typeList.js"></script>
+        <script src="js/directives/typeItem.js"></script>
+        
         <script src="js/directives/dosageList.js"></script>
         <script src="js/directives/dosageItem.js"></script>
-
+        
+        <script src="js/directives/movementList.js"></script>
+        <script src="js/directives/movementItem.js"></script>
+        
         <script src="js/component/inputBuilder.js"></script>
         <script src="js/component/element/FormElement.js"></script>
+        <script src="js/component/element/Button.js"></script>
+        <script src="js/component/element/TextInput.js"></script>
+        <script src="js/component/element/ListBox.js"></script>
         <script src="js/service/List.js"></script>
 
         <!--Tabs-->
@@ -39,6 +48,8 @@
             <ul>
                 <li><a href="#tabs-1">Medicamentos</a></li>
                 <li><a href="#tabs-2">Dosagens</a></li>
+                <li><a href="#tabs-3">Movimentação</a></li>
+                <li><a href="#tabs-4">Tipo Movimento</a></li>
             </ul>
             <div id="tabs-1">
                 <div class="jumbotron">
@@ -50,10 +61,30 @@
                 </div>
             </div>
             <div id="tabs-2">
-                <h3>Dosagens</h3>
-                <div>
-                    <input-builder id="dosageList", event-bus="eventBus", input-fields="dosageInputFields", list-name="'dosageList'"></input-builder>
-                    <dosage-list event-bus="eventBus", list-name="'dosageList'"></dosage-list>
+                <div class="jumbotron">
+                    <h3>Dosagens</h3>
+                    <div>
+                        <input-builder id="dosageList", event-bus="eventBus", input-fields="dosageInputFields", list-name="'dosageList'"></input-builder>
+                        <dosage-list event-bus="eventBus", list-name="'dosageList'"></dosage-list>
+                    </div>
+                </div>
+            </div>
+            <div id="tabs-3">
+                <div class="jumbotron">
+                    <h3>Movimentação</h3>
+                    <div>
+                        <input-builder id="movementList", event-bus="eventBus", input-fields="movementInputFields" list-name="'movementList'"></input-builder>
+                        <movement-list event-bus="eventBus", list-name="'movementList'"></movement-list>
+                    </div>
+                </div>
+            </div>
+            <div id="tabs-4">
+                <div class="jumbotron">
+                    <h3>Tipo Movimento</h3>
+                    <div>
+                        <input-builder id="typeList", event-bus="eventBus", input-fields="typeInputFields", list-name="'typeList'"></input-builder>
+                        <type-list event-bus="eventBus", list-name="'typeList'"></type-list>
+                    </div>
                 </div>
             </div>
         </div>

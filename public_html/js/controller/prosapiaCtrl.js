@@ -3,14 +3,26 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, FormElem
     $scope.app = "Prosapia";
 
     $scope.dosageInputFields = [
-        {type: FormElement.TEXTINPUT, id: 'txbDosage', name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
-        {type: FormElement.BUTTONSUBMIT, id: 'btnAddDosage', class: "addButton", click: "addItem(\'dosageList\', data, $event)", data: "data"}
+        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
+        {type: FormElement.BUTTONSUBMIT, class: "addButton", click: "addItem(\'dosageList\', data, $event)"}
     ];
 
     $scope.medicineInputFields = [
-        {type: FormElement.TEXTINPUT, id: 'txbMedicine', name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
-        {type: FormElement.SELECT, id: "cbxDosage", model: 'dosage', options: 'dosage.name for dosage in List.getList(\'dosageList\') track by dosage.id', option: 'Selecione a forma de dosagem', option: "Selecione uma forma de dosagem"},
-        {type: FormElement.BUTTONSUBMIT, id: 'btnAddMedicine', class: "addButton", click: "addItem(\'medicineList\', data, $event)", data: "data"}
+        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
+        {type: FormElement.SELECT, model: 'dosage', options: 'dosage.name for dosage in List.getList(\'dosageList\') track by dosage.id', option: 'Selecione a forma de dosagem'},
+        {type: FormElement.BUTTONSUBMIT, class: "addButton", click: "addItem(\'medicineList\', data, $event)"}
+    ];
+
+    $scope.typeInputFields = [
+        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
+        {type: FormElement.BUTTONSUBMIT, class: "addButton", click: "addItem(\'typeList\', data, $event)"}
+    ];
+
+    $scope.movementInputFields = [
+        {type: FormElement.SELECT, model: 'medicine', options: 'combine([medicine.name, medicine.dosage.name]) for medicine in List.getList(\'medicineList\') track by medicine.id', option: 'Selecione o medicamento'},
+        {type: FormElement.SELECT, model: 'type', options: 'type.name for type in List.getList(\'typeList\') track by type.id', option: 'Selecione o tipo de movimentação'},
+        {type: FormElement.TEXTINPUT, name: 'quantity', model: 'quantity', placeHolder: 'Quantidade', eType: 'text'},
+        {type: FormElement.BUTTONSUBMIT, class: "addButton", click: "addItem(\'movementList\', data, $event)"}
     ];
 
     $scope.listeners = {};

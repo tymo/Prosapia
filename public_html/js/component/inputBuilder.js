@@ -12,10 +12,20 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
         newForm.name = 'newForm';
         scope.addItem = function (listName, data, $event) {
             $event.preventDefault();
-            if (listName && data) {
+            if (listName && data) {                
                 List.addItem(listName, data);
             }
             delete scope.data;
+        }
+        scope.combine = function (params) {
+            let comb = "";
+            params.forEach(function (param) {
+                if (comb != "") {
+                    comb += "/";
+                }
+                comb += param;
+            })
+            return comb;
         }
         scope.inputFields.forEach(function (input) {
             newElement = FormElement.getElement(input);
@@ -27,7 +37,5 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
         scope.List = List;
         $compile(newForm)(scope);
         document.getElementById(scope.listName).appendChild(newForm);
-        scope.inputFields.forEach(function (input) {
-        })
     }
 });
