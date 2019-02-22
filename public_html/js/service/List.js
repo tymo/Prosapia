@@ -29,10 +29,10 @@ angular.module("prosapia").factory('List', function () {
             keyID = key + ID;
             if (!this.store.get(keyID)) {
                 this.store.set(keyID, 1);
-            }
-            nid = this.store.get(keyID);                        
-            item.id = nid;            
-            this.store.set(keyID, ++nid);            
+            }           
+            let nextId = this.store.get(keyID);
+            item.id = nextId;
+            this.store.set(keyID, ++nextId);
             if (!this.store.get(key).includes(item)) {
                 this.store.get(key).push(item);
             }

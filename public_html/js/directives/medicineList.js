@@ -21,8 +21,10 @@ angular.module("prosapia").directive('medicineList', function ($compile, List) {
             return (scope.List.getList(scope.listName) != null);
         };
         $compile(scope.element.contents())(scope);
-    }
-    ;
+        let dosage = {name: "Ml"};
+        nfo = "Agua(" + dosage.name + ")";
+        scope.List.addItem(scope.listName, {name: "Agua", dosage: dosage, info: nfo});
+    };
 }
 
 );
