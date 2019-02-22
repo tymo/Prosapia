@@ -1,5 +1,5 @@
 angular.module("prosapia", []);
-angular.module("prosapia").controller("prosapiaCtrl", function ($scope, FormElement) {
+angular.module("prosapia").controller("prosapiaCtrl", function ($scope, List, FormElement, dyTextInput, dyButton) {
     $scope.app = "Prosapia";
 
     $scope.dosageInputFields = [
@@ -57,11 +57,28 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, FormElem
         },
     }
 
-//    scope.initLayout = function () {   
-//        let sp = document.createElement("SPAN");
-//        sp.appendChild(document.createTextNode("Texto"))
-//        document.body.appendChild(sp);
-//        $compile(document.body)($scope);
-//    }
+    $scope.addItem = function (listName, data, $event) {
+        $event.preventDefault();
+        if (listName && data) {
+            List.addItem(listName, data);
+        }
+        delete scope.data;
+    }
 
+    $scope.initLayout = function () {
+        let hdiv = document.createElement("DIV");
+        let h3 = document.createElement("H3");
+        h3.appendChild(document.createTextNode("Dosagens"));
+        let fmdiv = document.createElement("DIV");
+        fmdiv.setAttribute("class", "jumbotron");
+        hdiv.appendChild(h3);
+        fmdiv.appendChild(hdiv);
+        let tin = dyTextInput.name('name').build();
+        fmdiv.appendChild(tin);
+        btn = dyButton.listName("dosageList").build();
+        fmdiv.appendChild(btn);
+        //'<dosage-list event-bus="eventBus", list-name="\'dosageList\'"></dosage-list>'                
+        document.getElementById("tabs-2").appendChild(fmdiv);
+    }
+    $scope.initLayout();
 });

@@ -30,6 +30,9 @@
         <script src="js/component/element/TextInput.js"></script>
         <script src="js/component/element/ListBox.js"></script>
         <script src="js/service/List.js"></script>
+        
+        <script src="js/component/element/dyTextInput.js"></script>
+        <script src="js/component/element/dyButton.js"></script>
 
         <!--Tabs-->
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -39,7 +42,6 @@
             $(function () {
                 $("#tabs").tabs();
             });
-
         </script>
         <!--Tabs-->
     </head>
@@ -61,13 +63,13 @@
                 </div>
             </div>
             <div id="tabs-2">
-                <div class="jumbotron">
+<!--                <div class="jumbotron">
                     <h3>Dosagens</h3>
                     <div>
                         <input-builder id="dosageList", event-bus="eventBus", input-fields="dosageInputFields", list-name="'dosageList'"></input-builder>
                         <dosage-list event-bus="eventBus", list-name="'dosageList'"></dosage-list>
                     </div>
-                </div>
+                </div>-->
             </div>
             <div id="tabs-3">
                 <div class="jumbotron">
