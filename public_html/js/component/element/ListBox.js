@@ -18,7 +18,7 @@ angular.module("prosapia").factory('ListBox', function () {
             let opt = document.createElement("OPTION");
             opt.appendChild(document.createTextNode(element.label));
             opt.setAttribute("value", "");
-            opt.setAttribute("label", element.option);
+            opt.setAttribute("label", element.label);
             newElement.appendChild(opt);
         }
         return newElement;

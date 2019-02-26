@@ -9,20 +9,21 @@ angular.module("prosapia").factory('dyTextInput', function () {
         this._name = name;
         return this;
     }
-    this.model = function(model) {
+    this.model = function (model) {
         this._model = model;
         return this;
     }
-    this.placeHolder = function(placeHolder) {
+    this.placeHolder = function (placeHolder) {
         this._placeHolder = placeHolder;
         return this;
     }
-    this.eType = function(eType) {
+    this.eType = function (eType) {
         this._eType = eType;
         return this;
     }
-    this.build = function() {
+    this.build = function () {
         this.newElement = document.createElement('INPUT');
+        this.newElement.type = "text";
         if (this._name) {
             this.newElement.name = this._name;
         }

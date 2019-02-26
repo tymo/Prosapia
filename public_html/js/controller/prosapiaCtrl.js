@@ -1,5 +1,5 @@
 angular.module("prosapia", []);
-angular.module("prosapia").controller("prosapiaCtrl", function ($scope, List, FormElement, dyTextInput, dyButton) {
+angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile, List, FormElement, dyTextInput, dyButton, dyLListBox) {
     $scope.app = "Prosapia";
 
     $scope.dosageInputFields = [
@@ -58,27 +58,77 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, List, Fo
     }
 
     $scope.addItem = function (listName, data, $event) {
-        $event.preventDefault();
+        //$event.preventDefault();
         if (listName && data) {
             List.addItem(listName, data);
         }
-        delete scope.data;
+        delete $scope.data;
     }
 
-    $scope.initLayout = function () {
-        let hdiv = document.createElement("DIV");
-        let h3 = document.createElement("H3");
-        h3.appendChild(document.createTextNode("Dosagens"));
-        let fmdiv = document.createElement("DIV");
-        fmdiv.setAttribute("class", "jumbotron");
-        hdiv.appendChild(h3);
-        fmdiv.appendChild(hdiv);
-        let tin = dyTextInput.name('name').build();
-        fmdiv.appendChild(tin);
-        btn = dyButton.listName("dosageList").build();
-        fmdiv.appendChild(btn);
-        //'<dosage-list event-bus="eventBus", list-name="\'dosageList\'"></dosage-list>'                
-        document.getElementById("tabs-2").appendChild(fmdiv);
+    $scope.combine = function (params) {
+        let comb = "";
+        params.forEach(function (param) {
+            if (comb != "") {
+                comb += "/";
+            }
+            comb += param;
+        })
+        return comb;
     }
-    $scope.initLayout();
+
+    $scope.createMdcDiv = function () {
+        let mdcDiv = document.createElement("DIV");
+        mdcDiv.appendChild(document.createElement("BR"));
+        mdcDiv.appendChild(dyTextInput.model("name").name('name').placeHolder("Nome").build());
+        mdcDiv.appendChild(document.createElement("BR"));
+        mdcDiv.appendChild(dyLListBox.model("dosage").listName('dosageList').columnList("dosage.name").label("Selecione a forma de dosagem").build());
+        mdcDiv.appendChild(document.createElement("BR"));
+        mdcDiv.appendChild(dyButton.listName("medicineList").build());
+        document.getElementById("mdcDiv").appendChild(mdcDiv);
+        $compile(mdcDiv)($scope);
+    }
+
+    $scope.createMtvDiv = function () {
+        let mtvDiv = document.createElement("DIV");
+        mtvDiv.appendChild(document.createElement("BR"));
+        mtvDiv.appendChild(dyLListBox.model("medicine").listName('medicineList').columnList("medicine.name, medicine.dosage.name").label("Selecione um medicamento").build());
+        mtvDiv.appendChild(document.createElement("BR"));
+        mtvDiv.appendChild(dyLListBox.model("type").listName('typeList').columnList("type.name").label("Selecione o tipo e movimentação").build());
+        mtvDiv.appendChild(document.createElement("BR"));
+        mtvDiv.appendChild(dyTextInput.model("quantity").name('quantity').placeHolder("Quantidade").build());
+        mtvDiv.appendChild(document.createElement("BR"));
+        mtvDiv.appendChild(dyButton.listName("movementList").build());
+        document.getElementById("mtvDiv").appendChild(mtvDiv);
+        $compile(mtvDiv)($scope);
+    }
+
+    $scope.createTypeDiv = function () {
+        let typeDiv = document.createElement("DIV");
+        typeDiv.appendChild(document.createElement("BR"));
+        typeDiv.appendChild(dyTextInput.model("name").name('name').placeHolder("Nome").build());
+        typeDiv.appendChild(dyButton.listName("typeList").build());
+        document.getElementById("typeDiv").appendChild(typeDiv);
+        $compile(typeDiv)($scope);
+    }
+
+    $scope.createDosageDiv = function () {
+        let dosageDiv = document.createElement("DIV");
+        dosageDiv.appendChild(document.createElement("BR"));
+        dosageDiv.appendChild(dyTextInput.model("name").name('name').placeHolder("Nome").build());
+        dosageDiv.appendChild(dyButton.listName("dosageList").build());
+        document.getElementById("dsgDiv").appendChild(dosageDiv);
+//        document.getElementById("dsgDiv").insertBefore(dosageDiv, document.getElementById("dsgDiv").lastChild);
+//        document.getElementsByTagName("dosage-list")[0].insertAdjacentElement("beforebegin", dosageDiv);        
+        $compile(dosageDiv)($scope);
+    }
+
+    $scope.addInputs = function () {        
+        $scope.createMdcDiv();
+        $scope.createDosageDiv();
+        $scope.createMtvDiv();
+        $scope.createTypeDiv();
+    }
+    
+    $scope.List = List;
+    $scope.addInputs();
 });

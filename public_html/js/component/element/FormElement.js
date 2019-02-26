@@ -22,7 +22,7 @@ angular.module("prosapia").factory('FormElement', function (Button, TextInput, L
                     newElement = this.BUTTONSUBMIT(elemInfo);
                     break;
                 }
-            }            
+            }
             if (newElement) {
                 return newElement;
             } else {

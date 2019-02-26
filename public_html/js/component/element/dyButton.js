@@ -1,7 +1,8 @@
 angular.module("prosapia").factory('dyButton', function () {
     this._listName = null;
     this.newElement = null;
-    this.base_click = "addItem(\'<listName>\', data, $event)";    
+    this.eventBus = null;
+    this.base_click = "addItem(\'<listName>\', data, $event)";
 
     this.listName = function (listName) {
         this._listName = listName;
@@ -16,5 +17,6 @@ angular.module("prosapia").factory('dyButton', function () {
         }
         return this.newElement;
     }
+
     return this;
 });
