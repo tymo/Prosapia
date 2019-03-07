@@ -29,7 +29,7 @@ angular.module("prosapia").factory('List', function () {
             keyID = key + ID;
             if (!this.store.get(keyID)) {
                 this.store.set(keyID, 1);
-            }           
+            }
             let nextId = this.store.get(keyID);
             item.id = nextId;
             this.store.set(keyID, ++nextId);
@@ -51,7 +51,8 @@ angular.module("prosapia").factory('List', function () {
             if (!this.store.get(key)) {
                 this.initList(key);
             }
-            return (this.store.get(key).length > 0 ? this.store.get(key) : null);
+//            return (this.store.get(key).length > 0 ? this.store.get(key) : null);
+            return this.store.get(key);
         },
 
         initList: function (key) {

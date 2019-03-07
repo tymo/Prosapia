@@ -1,29 +1,29 @@
-angular.module("prosapia", []);
-angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile, List, FormElement, dyTextInput, dyButton, dyLListBox) {
+    angular.module("prosapia", []);
+angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile, List, FormElement, dyForm, dyTextInput, dyButton, dyLListBox) {
     $scope.app = "Prosapia";
 
-    $scope.dosageInputFields = [
-        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
-        {type: FormElement.BUTTONSUBMIT, listName: "dosageList"}
-    ];
+//    $scope.medicineInputFields = [
+//        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
+//        {type: FormElement.SELECT, model: 'dosage', listName: "dosageList", columnList: 'dosage.name', label: 'Selecione a forma de dosagem'},
+//        {type: FormElement.BUTTONSUBMIT, listName: "medicineList"}
+//    ];
 
-    $scope.medicineInputFields = [
-        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
-        {type: FormElement.SELECT, model: 'dosage', listName: "dosageList", columnList: 'dosage.name', label: 'Selecione a forma de dosagem'},
-        {type: FormElement.BUTTONSUBMIT, listName: "medicineList"}
-    ];
+//    $scope.dosageInputFields = [
+//        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
+//        {type: FormElement.BUTTONSUBMIT, listName: "dosageList"}
+//    ];
 
-    $scope.typeInputFields = [
-        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
-        {type: FormElement.BUTTONSUBMIT, listName: "typeList"}
-    ];
-
-    $scope.movementInputFields = [
-        {type: FormElement.SELECT, model: 'medicine', listName: "medicineList", columnList: 'medicine.name, medicine.dosage.name', label: 'Selecione o medicamento'},
-        {type: FormElement.SELECT, model: 'type', listName: "typeList", columnList: 'type.name', label: 'Selecione o tipo de movimentação'},
-        {type: FormElement.TEXTINPUT, name: 'quantity', model: 'quantity', placeHolder: 'Quantidade', eType: 'text'},
-        {type: FormElement.BUTTONSUBMIT, listName: "movementList"}
-    ];
+//    $scope.movementInputFields = [
+//        {type: FormElement.SELECT, model: 'medicine', listName: "medicineList", columnList: 'medicine.name, medicine.dosage.name', label: 'Selecione o medicamento'},
+//        {type: FormElement.SELECT, model: 'type', listName: "typeList", columnList: 'type.name', label: 'Selecione o tipo de movimentação'},
+//        {type: FormElement.TEXTINPUT, name: 'quantity', model: 'quantity', placeHolder: 'Quantidade', eType: 'text'},
+//        {type: FormElement.BUTTONSUBMIT, listName: "movementList"}
+//    ];
+//
+//    $scope.typeInputFields = [
+//        {type: FormElement.TEXTINPUT, name: 'name', model: 'name', placeHolder: 'Nome', eType: 'text'},
+//        {type: FormElement.BUTTONSUBMIT, listName: "typeList"}
+//    ];
 
     $scope.listeners = {};
     var listeners = [];
@@ -76,59 +76,48 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         return comb;
     }
 
-    $scope.createMdcDiv = function () {
-        let mdcDiv = document.createElement("DIV");
-        mdcDiv.appendChild(document.createElement("BR"));
-        mdcDiv.appendChild(dyTextInput.model("name").name('name').placeHolder("Nome").build());
-        mdcDiv.appendChild(document.createElement("BR"));
-        mdcDiv.appendChild(dyLListBox.model("dosage").listName('dosageList').columnList("dosage.name").label("Selecione a forma de dosagem").build());
-        mdcDiv.appendChild(document.createElement("BR"));
-        mdcDiv.appendChild(dyButton.listName("medicineList").build());
-        document.getElementById("mdcDiv").appendChild(mdcDiv);
-        $compile(mdcDiv)($scope);
+    $scope.createMdcForm = function () {
+        let mdcForm = dyForm.setId("medicineForm").setScope($scope).setListName("'medicineList'");
+        mdcForm.setElementListName("medicineInputFields");
+        mdcForm.addElementTo("medicineInputFields", dyTextInput.setModel("name").setName('name').setPlaceHolder("Nome").build());
+        mdcForm.addElementTo("medicineInputFields", dyLListBox.setModel("dosage").setListName('dosageList').setColumnList("dosage.name").setLabel("Selecione a forma de dosagem").build());
+        mdcForm.addElementTo("medicineInputFields", dyButton.setListName("medicineList").build());
+        mdcForm.build();
     }
 
-    $scope.createMtvDiv = function () {
-        let mtvDiv = document.createElement("DIV");
-        mtvDiv.appendChild(document.createElement("BR"));
-        mtvDiv.appendChild(dyLListBox.model("medicine").listName('medicineList').columnList("medicine.name, medicine.dosage.name").label("Selecione um medicamento").build());
-        mtvDiv.appendChild(document.createElement("BR"));
-        mtvDiv.appendChild(dyLListBox.model("type").listName('typeList').columnList("type.name").label("Selecione o tipo e movimentação").build());
-        mtvDiv.appendChild(document.createElement("BR"));
-        mtvDiv.appendChild(dyTextInput.model("quantity").name('quantity').placeHolder("Quantidade").build());
-        mtvDiv.appendChild(document.createElement("BR"));
-        mtvDiv.appendChild(dyButton.listName("movementList").build());
-        document.getElementById("mtvDiv").appendChild(mtvDiv);
-        $compile(mtvDiv)($scope);
+    $scope.createDosageForm = function () {
+        let dosageForm = dyForm.setId("dosageForm").setScope($scope).setListName("'dosageList'");
+        dosageForm.setElementListName("dosageInputFields");
+        dosageForm.addElementTo("dosageInputFields", dyTextInput.setName("name").setModel("name").setPlaceHolder("Nome").setEType("text").build());
+        dosageForm.addElementTo("dosageInputFields", dyButton.setListName("dosageList").build());
+        dosageForm.build();
     }
 
-    $scope.createTypeDiv = function () {
-        let typeDiv = document.createElement("DIV");
-        typeDiv.appendChild(document.createElement("BR"));
-        typeDiv.appendChild(dyTextInput.model("name").name('name').placeHolder("Nome").build());
-        typeDiv.appendChild(dyButton.listName("typeList").build());
-        document.getElementById("typeDiv").appendChild(typeDiv);
-        $compile(typeDiv)($scope);
+    $scope.createMvtForm = function () {
+        let mvtForm = dyForm.setId("movementForm").setScope($scope).setListName("'movementList'");
+        mvtForm.setElementListName("movementInputFields");
+        mvtForm.addElementTo("movementInputFields", dyLListBox.setModel("medicine").setListName('medicineList').setColumnList("medicine.name, medicine.dosage.name").setLabel("Selecione um medicamento").build());
+        mvtForm.addElementTo("movementInputFields", dyLListBox.setModel("type").setListName('typeList').setColumnList("type.name").setLabel("Selecione o tipo e movimentação").build());
+        mvtForm.addElementTo("movementInputFields", dyTextInput.setModel("quantity").setName('quantity').setPlaceHolder("Quantidade").build());
+        mvtForm.addElementTo("movementInputFields", dyButton.setListName("movementList").build());
+        mvtForm.build();
     }
 
-    $scope.createDosageDiv = function () {
-        let dosageDiv = document.createElement("DIV");
-        dosageDiv.appendChild(document.createElement("BR"));
-        dosageDiv.appendChild(dyTextInput.model("name").name('name').placeHolder("Nome").build());
-        dosageDiv.appendChild(dyButton.listName("dosageList").build());
-        document.getElementById("dsgDiv").appendChild(dosageDiv);
-//        document.getElementById("dsgDiv").insertBefore(dosageDiv, document.getElementById("dsgDiv").lastChild);
-//        document.getElementsByTagName("dosage-list")[0].insertAdjacentElement("beforebegin", dosageDiv);        
-        $compile(dosageDiv)($scope);
+    $scope.createTypeForm = function () {
+        let typeForm = dyForm.setId("typeForm").setScope($scope).setListName("'typeList'");
+        typeForm.addElementTo("typeInputFields", dyTextInput.setModel("name").setName("name").setPlaceHolder("Nome").build());
+        typeForm.addElementTo("typeInputFields", dyButton.setListName("typeList").build());
+        typeForm.setElementListName("typeInputFields");
+        typeForm.build();
     }
 
-    $scope.addInputs = function () {        
-        $scope.createMdcDiv();
-        $scope.createDosageDiv();
-        $scope.createMtvDiv();
-        $scope.createTypeDiv();
+    $scope.createForms = function () {
+        $scope.createMdcForm();
+        $scope.createDosageForm();
+        $scope.createMvtForm();
+        $scope.createTypeForm();
     }
-    
+
     $scope.List = List;
-    $scope.addInputs();
+    $scope.createForms();
 });
