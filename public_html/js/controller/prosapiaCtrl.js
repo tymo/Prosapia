@@ -54,35 +54,35 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
     $scope.createMdcForm = function () {
         let mdcForm = dyForm.setId("medicineForm").setScope($scope).setListName("'medicineList'");
         mdcForm.setFieldsResourceName("medicineInputFields");
-        mdcForm.addElementTo(dyTextInput.setModel("name").setName('name').setPlaceHolder("Nome").build());
-        mdcForm.addElementTo(dyLListBox.setModel("dosage").setListName('dosageList').setColumnList("dosage.name").setLabel("Selecione a forma de dosagem").build());
-        mdcForm.addElementTo(dyButton.setListName("medicineList").build());
+        mdcForm.addElement(dyTextInput.setModel("name").setName('name').setPlaceHolder("Nome").build());
+        mdcForm.addElement(dyLListBox.setModel("dosage").setListName('dosageList').setColumnList("dosage.name").setLabel("Selecione a forma de dosagem").build());
+        mdcForm.addElement(dyButton.setListName("medicineList").build());
         mdcForm.build();
     }
 
     $scope.createDosageForm = function () {
         let dosageForm = dyForm.setId("dosageForm").setScope($scope).setListName("'dosageList'");
         dosageForm.setFieldsResourceName("dosageInputFields");
-        dosageForm.addElementTo(dyTextInput.setName("name").setModel("name").setPlaceHolder("Nome").setEType("text").build());
-        dosageForm.addElementTo(dyButton.setListName("dosageList").build());
+        dosageForm.addElement(dyTextInput.setName("name").setModel("name").setPlaceHolder("Nome").setEType("text").build());
+        dosageForm.addElement(dyButton.setListName("dosageList").build());
         dosageForm.build();
     }
 
     $scope.createMvtForm = function () {
         let mvtForm = dyForm.setId("movementForm").setScope($scope).setListName("'movementList'");
         mvtForm.setFieldsResourceName("movementInputFields");
-        mvtForm.addElementTo(dyLListBox.setModel("medicine").setListName('medicineList').setColumnList("medicine.name, medicine.dosage.name").setLabel("Selecione um medicamento").build());
-        mvtForm.addElementTo(dyLListBox.setModel("type").setListName('typeList').setColumnList("type.name").setLabel("Selecione o tipo e movimentação").build());
-        mvtForm.addElementTo(dyTextInput.setModel("quantity").setName('quantity').setPlaceHolder("Quantidade").build());
-        mvtForm.addElementTo(dyButton.setListName("movementList").build());
+        mvtForm.addElement(dyLListBox.setModel("medicine").setListName('medicineList').setColumnList("medicine.name, medicine.dosage.name").setLabel("Selecione um medicamento").build());
+        mvtForm.addElement(dyLListBox.setModel("type").setListName('typeList').setColumnList("type.name").setLabel("Selecione o tipo e movimentação").build());
+        mvtForm.addElement(dyTextInput.setModel("quantity").setName('quantity').setPlaceHolder("Quantidade").build());
+        mvtForm.addElement(dyButton.setListName("movementList").build());
         mvtForm.build();
     }
 
     $scope.createTypeForm = function () {
         let typeForm = dyForm.setId("typeForm").setScope($scope).setListName("'typeList'");
         typeForm.setFieldsResourceName("typeInputFields");
-        typeForm.addElementTo(dyTextInput.setModel("name").setName("name").setPlaceHolder("Nome").build());
-        typeForm.addElementTo(dyButton.setListName("typeList").build());        
+        typeForm.addElement(dyTextInput.setModel("name").setName("name").setPlaceHolder("Nome").build());
+        typeForm.addElement(dyButton.setListName("typeList").build());        
         typeForm.build();
     }
 

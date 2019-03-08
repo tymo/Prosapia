@@ -30,18 +30,11 @@ angular.module("prosapia").factory('dyForm', function ($compile, List) {
         this.scope = scope;
         return this;
     }
-
+    
     this.addElement = function (element) {
-        if (element) {
-            this.elements.push(element);
-        }
-        return this;
-    }
-
-    this.addElementTo = function (element) {
         if (this.fieldsResourceName) {
             if (element) {
-                List.getList(this.fieldsResourceName).push(element);
+                List.addItem(this.fieldsResourceName, element);
             }
         } else {
             console.warn("Field resource name was not set. Please set myform.setFieldsResourceName('Name') before adding fields to myForm!");
