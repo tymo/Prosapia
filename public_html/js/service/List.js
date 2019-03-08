@@ -51,7 +51,6 @@ angular.module("prosapia").factory('List', function () {
             if (!this.store.get(key)) {
                 this.initList(key);
             }
-//            return (this.store.get(key).length > 0 ? this.store.get(key) : null);
             return this.store.get(key);
         },
 

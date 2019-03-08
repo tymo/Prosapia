@@ -22,7 +22,6 @@ angular.module("prosapia").factory('dyTextInput', function (FormElement) {
     }
     this.build = function () {
         this.type = FormElement.TEXTINPUT;
-//        return this;
         return {type: FormElement.TEXTINPUT, name: this.name, model: this.model, placeHolder: this.placeHolder, eType: this.eType};
     }
     return this;

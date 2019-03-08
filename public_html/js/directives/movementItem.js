@@ -15,7 +15,6 @@ angular.module("prosapia").directive('movementItem', function (List) {
 
         scope.removeMedicine = function (movement) {
             List.removeItem('movementList', movement);
-            //scope.eventBus.fireEvent("deleteMedicine", movement);
         };
     }
 });

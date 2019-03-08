@@ -2,7 +2,7 @@ angular.module("prosapia").factory('dyForm', function ($compile, List) {
     this.id = null;
     this.listName = null;
     this.eventBus = null;
-    this.elmListName = null
+    this.fieldsResourceName = null
     this.scope = null;
     this.elements = [];
 
@@ -21,8 +21,8 @@ angular.module("prosapia").factory('dyForm', function ($compile, List) {
         return this;
     }
 
-    this.setElementListName = function (elementsList) {
-        this.elmListName = elementsList;
+    this.setFieldsResourceName = function (fieldsResourceName) {
+        this.fieldsResourceName = fieldsResourceName;
         return this;
     }
 
@@ -38,9 +38,13 @@ angular.module("prosapia").factory('dyForm', function ($compile, List) {
         return this;
     }
 
-    this.addElementTo = function (listName, element) {
-        if (element) {
-            List.getList(listName).push(element);
+    this.addElementTo = function (element) {
+        if (this.fieldsResourceName) {
+            if (element) {
+                List.getList(this.fieldsResourceName).push(element);
+            }
+        } else {
+            console.warn("Field resource name was not set. Please set myform.setFieldsResourceName('Name') before adding fields to myForm!");
         }
         return this;
     }
@@ -49,8 +53,7 @@ angular.module("prosapia").factory('dyForm', function ($compile, List) {
         let newForm = document.createElement('input-builder');
         newForm.setAttribute("id", this.id);
         newForm.setAttribute("event-bus", this.eventBus);
-//        newForm.setAttribute("input-fields", this.elements);
-        newForm.setAttribute("input-fields", this.elmListName);
+        newForm.setAttribute("fields-resource-name", this.fieldsResourceName);
         newForm.setAttribute("list-name", this.listName);
         $compile(newForm)(this.scope);
     }

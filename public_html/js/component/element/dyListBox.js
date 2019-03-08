@@ -29,7 +29,6 @@ angular.module("prosapia").factory('dyLListBox', function (FormElement) {
 
     this.build = function () {
         this.type = FormElement.SELECT;
-//        return this;
         return {type: FormElement.SELECT, model: this.model, listName: this.listName, columnList: this.columnList, label: this.label};
     }
 

@@ -3,7 +3,7 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
         scope: {
             id: "@",
             eventBus: "=",
-            inputFields: "@",
+            fieldsResourceName: "@",
             listName: "="
         },
         link: link
@@ -29,8 +29,7 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
             return comb;
         }
         scope.List = List;
-//        scope.inputFields.forEach(function (input) {
-        scope.List.getList(scope.inputFields).forEach(function (input) {
+        scope.List.getList(scope.fieldsResourceName).forEach(function (input) {
             newElement = FormElement.getElement(input);
             if (newElement) {
                 newForm.appendChild(newElement);
