@@ -10,7 +10,6 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
     };
     function link(scope) {
         newForm = document.createElement('FORM');
-        newForm.name = 'newForm';
         scope.addItem = function (listName, data, $event) {
             $event.preventDefault();
             if (listName && data) {

@@ -80,9 +80,9 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
 
     $scope.createTypeForm = function () {
         let typeForm = dyForm.setId("typeForm").setScope($scope).setListName("'typeList'");
-        typeForm.addElementTo(dyTextInput.setModel("name").setName("name").setPlaceHolder("Nome").build());
-        typeForm.addElementTo(dyButton.setListName("typeList").build());
         typeForm.setFieldsResourceName("typeInputFields");
+        typeForm.addElementTo(dyTextInput.setModel("name").setName("name").setPlaceHolder("Nome").build());
+        typeForm.addElementTo(dyButton.setListName("typeList").build());        
         typeForm.build();
     }
 
