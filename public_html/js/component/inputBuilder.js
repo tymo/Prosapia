@@ -9,7 +9,6 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
         link: link
     };
     function link(scope) {
-        newForm = document.createElement('FORM');
         scope.addItem = function (listName, data, $event) {
             $event.preventDefault();
             if (listName && data) {
@@ -27,9 +26,10 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
             })
             return comb;
         }
+        let newForm = document.createElement('FORM');
         scope.List = List;
-        scope.List.getList(scope.fieldsResourceName).forEach(function (input) {
-            newElement = FormElement.getElement(input);
+        scope.List.getList(scope.fieldsResourceName).forEach(function (elementInfo) {
+            let newElement = FormElement.getElement(elementInfo);
             if (newElement) {
                 newForm.appendChild(newElement);
                 newForm.appendChild(document.createElement("BR"));
