@@ -1,4 +1,4 @@
-    angular.module("prosapia", []);
+angular.module("prosapia", []);
 angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile, List, FormElement, dyForm, dyTextInput, dyButton, dyLListBox) {
     $scope.app = "Prosapia";
     $scope.listeners = {};
@@ -33,24 +33,6 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         },
     }
 
-    $scope.addItem = function (listName, data) {
-        if (listName && data) {
-            List.addItem(listName, data);
-        }
-        delete $scope.data;
-    }
-
-    $scope.combine = function (params) {
-        let comb = "";
-        params.forEach(function (param) {
-            if (comb != "") {
-                comb += "/";
-            }
-            comb += param;
-        })
-        return comb;
-    }
-
     $scope.createMdcForm = function () {
         let mdcForm = dyForm.setId("medicineForm").setScope($scope).setListName("'medicineList'");
         mdcForm.setFieldsResourceName("medicineInputFields");
@@ -74,7 +56,7 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         mvtForm.addElement(dyLListBox.setModel("medicine").setListName('medicineList').setColumnList("medicine.name, medicine.dosage.name").setLabel("Selecione um medicamento").build());
         mvtForm.addElement(dyLListBox.setModel("type").setListName('typeList').setColumnList("type.name").setLabel("Selecione o tipo e movimentação").build());
         mvtForm.addElement(dyTextInput.setModel("quantity").setName('quantity').setPlaceHolder("Quantidade").build());
-        mvtForm.addElement(dyButton.setListName("movementList").build());
+        mvtForm.addElement(dyButton.setListName("movementList").setModList("medicineList").build());
         mvtForm.build();
     }
 
@@ -82,15 +64,15 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         let typeForm = dyForm.setId("typeForm").setScope($scope).setListName("'typeList'");
         typeForm.setFieldsResourceName("typeInputFields");
         typeForm.addElement(dyTextInput.setModel("name").setName("name").setPlaceHolder("Nome").build());
-        typeForm.addElement(dyButton.setListName("typeList").build());        
+        typeForm.addElement(dyButton.setListName("typeList").build());
         typeForm.build();
     }
 
     $scope.createForms = function () {
         $scope.createMdcForm();
-        $scope.createDosageForm();
+//        $scope.createDosageForm();
         $scope.createMvtForm();
-        $scope.createTypeForm();
+//        $scope.createTypeForm();
     }
 
     $scope.List = List;

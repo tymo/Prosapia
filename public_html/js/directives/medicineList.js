@@ -5,11 +5,12 @@ angular.module("prosapia").directive('medicineList', function ($compile, List) {
         template:
                 '<div ng-show="hasMedicine()">\
                 <table class="tableRoot">\
-                <tr class="listHeader"><th class="listHeader" colspan="4">MedicamentosS</th></tr>\
+                <tr class="listHeader"><th class="listHeader" colspan="5">MedicamentosS</th></tr>\
                 <tr class="listHeader">\
                 <th class="listHeader">Id</th>\
                 <th class="listHeader">Nome</th>\
                 <th class="listHeader">Dosagem</th>\
+                <th class="listHeader">Quantidade</th>\
                 <th class="listHeader">Excluir</th></tr>\
                 <tr class="tr-medicine-item" medicine-item event-bus="eventBus" medicine="medicine" \
                 ng-repeat="medicine in List.getList(listName)"></tr></table>'
@@ -22,9 +23,10 @@ angular.module("prosapia").directive('medicineList', function ($compile, List) {
         };
         $compile(scope.element.contents())(scope);
         let dosage = {name: "Ml"};
-        nfo = "Agua(" + dosage.name + ")";
-        scope.List.addItem(scope.listName, {name: "Agua", dosage: dosage, info: nfo});
-    };
+        let nfo = "Agua(" + dosage.name + ")";
+        scope.List.addItem(scope.listName, {name: "Agua", dosage: dosage, quantity: 0, info: nfo});
+    }
+    ;
 }
 
 );

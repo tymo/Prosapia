@@ -9,9 +9,10 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
         link: link
     };
     function link(scope) {
-        scope.addItem = function (listName, data, $event) {
-            $event.preventDefault();
-            if (listName && data) {
+        scope.addItem = function (listName, data, modList) {
+            if (modList && listName && data) {
+                List.addItem(listName, data, modList);
+            } else if (listName && data) {
                 List.addItem(listName, data);
             }
             delete scope.data;

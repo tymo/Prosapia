@@ -6,6 +6,7 @@ angular.module("prosapia").directive('medicineItem', function (List) {
                 '<td>{{medicine.id}}</td>\
         <td>{{medicine.name}}</td>\
         <td>{{medicine.dosage.name}}</td>\
+        <td>{{medicine.quantity}}</td>\
         <td><button class="removeButton" ng-click="removeMedicine(medicine)">X</button></td>'
     };
 
