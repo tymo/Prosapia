@@ -16,7 +16,7 @@ angular.module("prosapia").directive('dosageList', function ($compile, List) {
     function link(scope, element) {
         scope.element = element;
         scope.List = List;
-        scope.hasDosage = function () {            
+        scope.hasDosage = function () {
             return (scope.List.getList(scope.listName) != null);
         };
         $compile(scope.element.contents())(scope);
@@ -24,8 +24,11 @@ angular.module("prosapia").directive('dosageList', function ($compile, List) {
         scope.List.addItem(scope.listName, {name: "Ml"});
         scope.List.addItem(scope.listName, {name: "Caixa(30)"});
         scope.List.addItem(scope.listName, {name: "Caixa(60)"});
-        
-    };
+        scope.List.addItem(scope.listName, {name: "Cartela(10)"});
+        scope.List.addItem(scope.listName, {name: "Cartela(15)"});
+        scope.List.addItem(scope.listName, {name: "Unidade"});
+    }
+    ;
 }
 
 );

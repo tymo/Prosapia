@@ -37,7 +37,7 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         let mdcForm = dyForm.setId("medicineForm").setScope($scope).setListName("'medicineList'");
         mdcForm.setFieldsResourceName("medicineInputFields");
         mdcForm.addElement(dyTextInput.setModel("name").setName('name').setPlaceHolder("Nome").build());
-        mdcForm.addElement(dyLListBox.setModel("dosage").setListName('dosageList').setColumnList("dosage.name").setLabel("Selecione a forma de dosagem").build());
+        mdcForm.addElement(dyLListBox.setModel("dosage").setScope($scope).setListName('dosageList').setColumnList("dosage.name").setLabel("Selecione a forma de dosagem").build());
         mdcForm.addElement(dyButton.setListName("medicineList").build());
         mdcForm.build();
     }
@@ -70,9 +70,9 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
 
     $scope.createForms = function () {
         $scope.createMdcForm();
-//        $scope.createDosageForm();
-//        $scope.createMvtForm();
-//        $scope.createTypeForm();
+        $scope.createDosageForm();
+        $scope.createMvtForm();
+        $scope.createTypeForm();
     }
 
     $scope.List = List;

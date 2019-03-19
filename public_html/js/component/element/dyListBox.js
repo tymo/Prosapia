@@ -1,5 +1,6 @@
 angular.module("prosapia").factory('dyLListBox', function (FormElement) {
     this.model = null;
+    this.scope = null;
     this.listName = null;
     this.columnList = null;
     this.label = null;
@@ -8,6 +9,10 @@ angular.module("prosapia").factory('dyLListBox', function (FormElement) {
 
     this.setModel = function (model) {
         this.model = model;
+        return this;
+    }
+    this.setScope = function (scope) {
+        this.scope = scope;
         return this;
     }
     this.setListName = function (listName) {
