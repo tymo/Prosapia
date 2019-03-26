@@ -69,10 +69,15 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
     }
 
     $scope.createForms = function () {
-        $scope.createMdcForm();
-        $scope.createDosageForm();
-        $scope.createMvtForm();
-        $scope.createTypeForm();
+        let menu = document.createElement('prosapia-menu');
+//        $($scope.element.find("div")).append(menu);
+//        angular.element(element).append(monthTable);
+        document.getElementById("contentArea").appendChild(menu);
+        $compile(menu)($scope);
+//        $scope.createMdcForm();
+//        $scope.createDosageForm();
+//        $scope.createMvtForm();
+//        $scope.createTypeForm();
     }
 
     $scope.List = List;
