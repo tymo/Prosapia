@@ -1,7 +1,21 @@
+.menu {
+    float: left;
+    width: "20%";
+}
+
+.panel {
+    float: left;
+    width: "80%";
+}
+
 .removeButton {
     background-color: blueviolet;
     width: 35PX;
     height: 35px;
+}
+
+.gridItem {
+    text-align: center;
 }
 
 .removeButton:hover {

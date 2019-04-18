@@ -1,19 +1,27 @@
-angular.module("prosapia").factory('TextInput', function () {
-    function build(element) {
-        newElement = document.createElement('INPUT');
-        if (element.name) {
-            newElement.name = element.name;
+angular.module("prosapia").factory('TextInput', function (Store) {
+    function build(eInf) {
+        newTextInput = document.createElement('INPUT');
+        if (eInf.name) {
+            newTextInput.name = eInf.name;
         }
-        if (element.model) {
-            newElement.setAttribute("ng-model", "data." + element.model);
+        if (eInf.eType) {
+            newTextInput.type = eInf.eType;
         }
-        if (element.placeHolder) {
-            newElement.setAttribute('placeHolder', element.placeHolder);
+        if (eInf.model) {
+            if (!eInf.scope.data) {
+                eInf.scope.data = {};
+            }
+            newTextInput.setAttribute("ng-model", "data." + eInf.model);
+            if (Store.getValue(eInf.model)) {
+                eInf.scope.data[eInf.model] = angular.copy(Store.getValue(eInf.model));
+//                newTextInput.value = angular.copy(Store.getValue(elementInfo.model));
+                Store.setValue(eInf.model, null);
+            }
         }
-        if (element.eType) {
-            newElement.type = element.eType;
-        }        
-        return newElement;
+        if (eInf.placeHolder) {
+            newTextInput.setAttribute('placeHolder', eInf.placeHolder);
+        }
+        return newTextInput;
     }
     return build;
 });

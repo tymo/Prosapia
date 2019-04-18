@@ -1,10 +1,11 @@
-angular.module("prosapia").directive('inputBuilder', function ($compile, FormElement, List) {
+angular.module("prosapia").directive('inputBuilder', function ($compile, FormElement, Store) {
     return {
         scope: {
             id: "@",
             eventBus: "=",
             fieldsResourceName: "@",
-            listName: "="
+            listName: "=",
+            returnTo: "@"
         },
         link: link
     };
@@ -23,9 +24,10 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
             }
             return matchingElements;
         }
+
         scope.addItem = function (listName, data, modList) {
             if (modList && listName && data) {
-                scope.List.getList(scope.fieldsResourceName).forEach(function (elementInfo) {
+                scope.Store.getList(scope.fieldsResourceName).forEach(function (elementInfo) {
                     if (elementInfo.type === FormElement.SELECT) {
                         let elmList = scope.getAllElementsWithAttribute("ng-model");
                         elmList.forEach(function (elem) {
@@ -36,9 +38,9 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
                         })
                     }
                 });
-                List.addItem(listName, data, modList);
+                scope.eventBus.fireEvent("addItem", [listName, data, modList]);
             } else if (listName && data) {
-                scope.List.getList(scope.fieldsResourceName).forEach(function (elementInfo) {
+                scope.Store.getList(scope.fieldsResourceName).forEach(function (elementInfo) {
                     if (elementInfo.type === FormElement.SELECT) {
                         let elmList = scope.getAllElementsWithAttribute("ng-model");
                         elmList.forEach(function (elem) {
@@ -49,9 +51,13 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
                         })
                     }
                 });
-                List.addItem(listName, data);
+                scope.eventBus.fireEvent("addItem", [listName, data]);
             }
             delete scope.data;
+            if (scope.returnTo) {
+                scope.eventBus.fireEvent(scope.returnTo);
+            }
+            scope.Store.initList(scope.fieldsResourceName);
         }
         scope.combine = function (params) {
             let comb = "";
@@ -64,15 +70,34 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
             return comb;
         }
         let newForm = document.createElement('FORM');
-        scope.List = List;
-        scope.List.getList(scope.fieldsResourceName).forEach(function (elementInfo) {
-            let newElement = FormElement.getElement(elementInfo);
+        scope.Store = Store;
+        if (!scope.data) {
+            scope.data = {};
+        }
+        scope.Store.getList(scope.fieldsResourceName).forEach(function (elementInfo) {
+            elementInfo.scope = scope;
+            elementInfo.Store = scope.Store;
+            let newElement = FormElement.getElement(elementInfo, scope);
             if (newElement) {
                 newForm.appendChild(newElement);
                 newForm.appendChild(document.createElement("BR"));
             }
+//            if (scope.Store.getValue(elementInfo.model)) {
+//                let value = scope.Store.getValue(elementInfo.model);
+//                if (value === Object(value)) {
+//                    Object.keys(value).forEach(function (k) {
+//                        scope.data[elementInfo.model] = value[k];
+//                    });
+//                } else {
+//                    scope.data[elementInfo.model] = value;
+//                }
+//            }
+//            scope.Store.setValue(elementInfo.model, null);
+//            }
         });
         $compile(newForm)(scope);
-        document.getElementById(scope.id).appendChild(newForm);
+        scope.eventBus.fireEvent("hideViewRmvBtns");
+        scope.eventBus.fireEvent("hideAddBtn");
+        scope.eventBus.fireEvent("displayContent", [newForm, false]);
     }
 });

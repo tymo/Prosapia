@@ -1,4 +1,4 @@
-angular.module("prosapia").factory('List', function () {
+angular.module("prosapia").factory('Store', function () {
     class Store {
         constructor() {
             this.data = {};
@@ -50,25 +50,30 @@ angular.module("prosapia").factory('List', function () {
                 }
             }
         },
-
         removeItem: function (key, item) {
             if (this.store.get(key)) {
                 if (this.store.get(key).includes(item)) {
-                    delete this.store.get(key).splice(this.store.get(key).indexOf(item), 1)
-                    ;
+                    delete this.store.get(key).splice(this.store.get(key).indexOf(item), 1);
                 }
             }
         },
-
         getList: function (key) {
             if (!this.store.get(key)) {
                 this.initList(key);
             }
             return this.store.get(key);
         },
-
+        setList: function (key, list) {
+            this.store.set(key, list);
+        },
         initList: function (key) {
             this.store.set(key, []);
+        },
+        setValue: function (key, value) {                        
+            this.store.set(key, value);
+        },
+        getValue: function (key) {                        
+            return this.store.get(key);
         }
     }
 });

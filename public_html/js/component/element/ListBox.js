@@ -1,40 +1,18 @@
-angular.module("prosapia").factory('ListBox', function ($compile) {
+angular.module("prosapia").factory('ListBox', function ($compile, Store) {
 
-//    function build(elementInfo) {
-//        const base_query = 'combine([<columnList>]) for <model> in List.getList(\'<listName>\')';
-//        const base_track = ' track by <model>.<trackBy>';
-//        newElement = document.createElement('SELECT');
-//        if (elementInfo.model) {
-//            newElement.setAttribute("ng-model", "data." + elementInfo.model);
-//        }
-//        if (elementInfo.listName) {
-//            let opts = base_query.replace("<model>", elementInfo.model).replace("<listName>", elementInfo.listName);
-//            opts = opts.replace("<columnList>", elementInfo.columnList);
-//            if (elementInfo.trackBy) {
-//                opts += base_track.replace("<model>", elementInfo.model).replace("<trackBy>", elementInfo.trackBy);
-//            }
-//            newElement.setAttribute("ng-options", opts);
-//        }
-//        if (elementInfo.label) {
-//            let opt = document.createElement("OPTION");
-//            opt.appendChild(document.createTextNode(elementInfo.label));
-//            opt.setAttribute("value", "");
-//            opt.setAttribute("label", elementInfo.label);
-//            newElement.appendChild(opt);
-//        }
-//        return newElement;
-//    }
-
-    function build(elementInfo) {
+    function build(eInf) {
         newListBox = document.createElement('list-box-directive');
-        newListBox.setAttribute("model", elementInfo.model);
-        //newListBox.setAttribute("scope", elementInfo.scope);
-        newListBox.setAttribute("list-name", elementInfo.listName);
-        newListBox.setAttribute("column-list", elementInfo.columnList);
-        if (elementInfo.trackBy) {
-            newListBox.setAttribute("track-by", elementInfo.trackBy);
+        newListBox.setAttribute("ng-model", eInf.model);
+        newListBox.setAttribute("list-name", eInf.listName);
+        newListBox.setAttribute("column-list", eInf.columnList);
+        if (eInf.trackBy) {
+            newListBox.setAttribute("track-by", eInf.trackBy);
         }
-        newListBox.setAttribute("label", elementInfo.label);
+        newListBox.setAttribute("label", eInf.label);
+//        if (eInf.Store.getValue(eInf.model)) {
+//            eInf.scope.data[eInf.model] = angular.copy(eInf.Store.getValue(eInf.model));
+//            eInf.Store.setValue(eInf.model, null);
+//        }
         return newListBox;
     }
 

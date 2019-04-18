@@ -1,10 +1,22 @@
-angular.module("prosapia").factory('dyForm', function ($compile, List) {
+angular.module("prosapia").factory('dyForm', function ($compile, Store, dyTextInput, dyButton, dyListBox) {
     this.id = null;
     this.listName = null;
+    this.returnTo = null;
     this.eventBus = null;
     this.fieldsResourceName = null
     this.scope = null;
-    this.elements = [];
+
+    this.clear = function () {
+        dyTextInput.clear();
+        dyListBox.clear();
+        dyButton.clear();
+        this.id = null;
+        this.listName = null;
+        this.returnTo = null;
+        this.eventBus = null;
+        this.fieldsResourceName = null
+        this.scope = null;
+    }
 
     this.setId = function (id) {
         this.id = id;
@@ -16,6 +28,11 @@ angular.module("prosapia").factory('dyForm', function ($compile, List) {
         return this;
     }
 
+    this.setReturnTo = function (returnTo) {
+        this.returnTo = returnTo;
+        return this;
+    }
+
     this.setEventBus = function (eventBus) {
         this.eventBus = eventBus;
         return this;
@@ -23,6 +40,7 @@ angular.module("prosapia").factory('dyForm', function ($compile, List) {
 
     this.setFieldsResourceName = function (fieldsResourceName) {
         this.fieldsResourceName = fieldsResourceName;
+        Store.initList(this.fieldsResourceName);
         return this;
     }
 
@@ -30,11 +48,11 @@ angular.module("prosapia").factory('dyForm', function ($compile, List) {
         this.scope = scope;
         return this;
     }
-    
+
     this.addElement = function (element) {
         if (this.fieldsResourceName) {
             if (element) {
-                List.addItem(this.fieldsResourceName, element);
+                Store.addItem(this.fieldsResourceName, element);
             }
         } else {
             console.warn("Field resource name was not set. Please set myform.setFieldsResourceName('Name') before adding fields to myForm!");
@@ -48,7 +66,9 @@ angular.module("prosapia").factory('dyForm', function ($compile, List) {
         newForm.setAttribute("event-bus", this.eventBus);
         newForm.setAttribute("fields-resource-name", this.fieldsResourceName);
         newForm.setAttribute("list-name", this.listName);
+        newForm.setAttribute("return-to", this.returnTo);
         $compile(newForm)(this.scope);
+        this.clear();
     }
 
     return this;

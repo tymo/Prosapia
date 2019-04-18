@@ -5,6 +5,14 @@ angular.module("prosapia").factory('dyButton', function (FormElement) {
     this.modValue = null;
     this.modOpr = null;
 
+    this.clear = function () {
+        this.listName = null;
+        this.modList = null;
+        this.modItem = null;
+        this.modValue = null;
+        this.modOpr = null;
+    }
+
     this.setListName = function (listName) {
         this.listName = listName;
         return this;

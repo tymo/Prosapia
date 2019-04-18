@@ -1,10 +1,10 @@
-angular.module("prosapia").directive('listBoxDirective', function ($compile, List) {
+angular.module("prosapia").directive('listBoxDirective', function ($compile, Store) {
     return {
         scope: {
-            model: "@",
             listName: "@",
             columnList: "@",
             trackBy: "@",
+            ngModel: "@",
             label: "@"
         },
         link: link
@@ -12,16 +12,27 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Lis
     function link(scope, element) {
         scope.handler = function () {
             return {getSelectedItem: function () {
-                    return scope.data[scope.model];
+                    return scope.data[scope.ngModel];
                 },
                 clearSelection: function () {
                     delete scope.data;
                 }};
         }
-        const base_query = 'combine([<columnList>]) for <model> in List.getList(\'<listName>\')';
+
+        scope.selectItem = function (listBox, item) {
+            if (listBox) {
+                for (var i = 0, j = listBox.options.length; i < j; ++i) {
+                    if (listBox.options[i].innerHTML === item) {
+                        listBox.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        }
+        const base_query = 'combine([<columnList>]) for <model> in Store.getList(\'<listName>\')';
         const base_track = ' track by <model>.<trackBy>';
-        scope.List = List;
-        let newElement = document.createElement('SELECT');
+        scope.Store = Store;
+        let newListBox = document.createElement('SELECT');
         scope.combine = function (params) {
             let comb = "";
             params.forEach(function (param) {
@@ -32,26 +43,36 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Lis
             })
             return comb;
         }
-        if (scope.model) {
-            newElement.setAttribute("ng-model", "data." + scope.model);
+        if (scope.ngModel) {
+            newListBox.setAttribute("ng-model", "data." + scope.ngModel);
         }
         if (scope.listName) {
-            let opts = base_query.replace("<model>", scope.model).replace("<listName>", scope.listName);
+            let opts = base_query.replace("<model>", scope.ngModel).replace("<listName>", scope.listName);
             opts = opts.replace("<columnList>", scope.columnList);
             if (scope.trackBy) {
-                opts += base_track.replace("<model>", scope.model).replace("<trackBy>", scope.trackBy);
+                opts += base_track.replace("<model>", scope.ngModel).replace("<trackBy>", scope.trackBy);
             }
-            newElement.setAttribute("ng-options", opts);
+            newListBox.setAttribute("ng-options", opts);
         }
         if (scope.label) {
             let opt = document.createElement("OPTION");
             opt.appendChild(document.createTextNode(scope.label));
             opt.setAttribute("value", "");
             opt.setAttribute("label", scope.label);
-            newElement.appendChild(opt);
+            newListBox.appendChild(opt);
         }
-        $compile(newElement)(scope);
-        element.append(newElement);
+        if (!scope.data) {
+            scope.data = {};
+        }
+        if (scope.Store.getValue(scope.ngModel)) {
+            scope.data[scope.ngModel] = angular.copy(scope.Store.getValue(scope.ngModel));
+//            scope.data.dosage.name = angular.copy(scope.Store.getValue(scope.ngModel));
+//            scope.data.dosage.id = 3;
+            scope.Store.setValue(scope.ngModel, null);
+        }
+//        return newListBox;
+        $compile(newListBox)(scope);
+        element.append(newListBox);
     }
 
 });

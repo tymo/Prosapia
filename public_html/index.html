@@ -9,94 +9,32 @@
         <script src="lib/moment/moment.js"></script>
 
         <script src="js/controller/prosapiaCtrl.js"></script>
+        <script src="js/directives/rootPanel.js"></script>
         <script src="js/directives/uiDateDirective.js"></script>
-        <script src="js/directives/uiTimeDirective.js"></script>
+        <script src="js/directives/uiTimeDirective.js"></script>        
 
-        <script src="js/directives/medicineList.js"></script>
-        <script src="js/directives/medicineItem.js"></script>
-
-        <script src="js/directives/typeList.js"></script>
-        <script src="js/directives/typeItem.js"></script>
-
-        <script src="js/directives/dosageList.js"></script>
-        <script src="js/directives/dosageItem.js"></script>
-
-        <script src="js/directives/movementList.js"></script>
-        <script src="js/directives/movementItem.js"></script>
-
-        <script src="js/component/inputBuilder.js"></script>
+        <script src="js/component/inputBuilder.js"></script>            
+        <script src="js/component/gridBuilder.js"></script>
         <script src="js/component/ListBoxDirective.js"></script>        
         <script src="js/component/element/FormElement.js"></script>
         <script src="js/component/element/Button.js"></script>
         <script src="js/component/element/TextInput.js"></script>
         <script src="js/component/element/ListBox.js"></script>
-        <script src="js/service/List.js"></script>
+        <script src="js/service/Store.js"></script>
 
         <script src="js/component/element/dyTextInput.js"></script>
         <script src="js/component/element/dyListBox.js"></script>
         <script src="js/component/element/dyButton.js"></script>
         <script src="js/component/element/dyForm.js"></script>
-
-        <!--Tabs-->
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script>
-            $(function () {
-                $("#tabs").tabs();
-            });
-        </script>
-        <!--Tabs-->
+        <script src="js/component/element/dyGrid.js"></script>
     </head>
     <body ng-controller="prosapiaCtrl">
-        <div id="tabs">
-            <ul>
-                <li><a href="#tabs-1">Medicamentos</a></li>
-                <li><a href="#tabs-2">Dosagens</a></li>
-                <li><a href="#tabs-3">Movimentação</a></li>
-                <li><a href="#tabs-4">Tipo Movimento</a></li>
-            </ul>
-            <div id="tabs-1">
-                <div class="jumbotron">
-                    <h3>Medicamentos</h3>
-                    <div id="mdcDiv">
-                        <!--<input-builder id="medicineList", event-bus="eventBus", input-fields="medicineInputFields" list-name="'medicineList'"></input-builder>-->
-                        <div id="medicineForm"></div>
-                        <medicine-list event-bus="eventBus", list-name="'medicineList'"></medicine-list>
-                    </div>
-                </div>
-            </div>
-            <div id="tabs-2">
-                <div class="jumbotron">
-                    <h3>Dosagens</h3>
-                    <div id="dsgDiv">
-                        <!--<input-builder id="dosageList", event-bus="eventBus", input-fields="dosageInputFields", list-name="'dosageList'"></input-builder>-->
-                        <div id="dosageForm"></div>
-                        <dosage-list event-bus="eventBus", list-name="'dosageList'"></dosage-list>
-                    </div>
-                </div>
-                <!--<dosage-list event-bus="eventBus", list-name="'dosageList'"></dosage-list>-->
-            </div>
-            <div id="tabs-3">
-                <div class="jumbotron">
-                    <h3>Movimentação</h3>
-                    <div id="mtvDiv">
-                        <!--<input-builder id="movementList", event-bus="eventBus", input-fields="movementInputFields" list-name="'movementList'"></input-builder>-->
-                        <div id="movementForm"></div>
-                        <movement-list event-bus="eventBus", list-name="'movementList'"></movement-list>
-                    </div>
-                </div>
-            </div>
-            <div id="tabs-4">
-                <div class="jumbotron">
-                    <h3>Tipo Movimento</h3>
-                    <div id="typeDiv">
-                        <!--<input-builder id="typeList", event-bus="eventBus", input-fields="typeInputFields", list-name="'typeList'"></input-builder>-->
-                        <div id="typeForm"></div>
-                        <type-list event-bus="eventBus", list-name="'typeList'"></type-list>
-                    </div>
-                </div>
-            </div>
+        <div id="prosapiaMenu" class="menu">
+            <button class="addButton" ng-click="eventBus.fireEvent('createDyMdcList')">Medicamento</button><br>
+            <button class="addButton" ng-click="eventBus.fireEvent('createDyDsgList')">Dosagem</button><br>
+            <button class="addButton" ng-click="eventBus.fireEvent('createDyMvtList')">Movimentação</button><br>
+            <button class="addButton" ng-click="eventBus.fireEvent('createDyTypList')">Tipo de Movimentação</button><br>
         </div>
-    </body>
+    <root-panel event-bus="eventBus"></root-panel>
+</body>
 </html>

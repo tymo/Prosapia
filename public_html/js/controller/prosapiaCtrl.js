@@ -1,5 +1,5 @@
 angular.module("prosapia", []);
-angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile, List, FormElement, dyForm, dyTextInput, dyButton, dyLListBox) {
+angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile, Store, FormElement, dyForm, dyGrid, dyTextInput, dyButton, dyListBox) {
     $scope.app = "Prosapia";
     $scope.listeners = {};
     var listeners = [];
@@ -35,46 +35,143 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
 
     $scope.createMdcForm = function () {
         let mdcForm = dyForm.setId("medicineForm").setScope($scope).setListName("'medicineList'");
+        mdcForm.setEventBus("eventBus");
         mdcForm.setFieldsResourceName("medicineInputFields");
-        mdcForm.addElement(dyTextInput.setModel("name").setName('name').setPlaceHolder("Nome").build());
-        mdcForm.addElement(dyLListBox.setModel("dosage").setScope($scope).setListName('dosageList').setColumnList("dosage.name").setLabel("Selecione a forma de dosagem").build());
+        let textInp = dyTextInput.setModel("name").setName('name').setPlaceHolder("Nome");
+        mdcForm.addElement(textInp.build());
+        mdcForm.addElement(dyListBox.setModel("dosage").setListName('dosageList').setColumnList("dosage.name").setTrackBy("id").setLabel("Selecione a forma de dosagem").build());
         mdcForm.addElement(dyButton.setListName("medicineList").build());
+        mdcForm.setReturnTo("createDyMdcList");
         mdcForm.build();
     }
 
-    $scope.createDosageForm = function () {
+    $scope.createDsgForm = function () {
         let dosageForm = dyForm.setId("dosageForm").setScope($scope).setListName("'dosageList'");
+        dosageForm.setEventBus("eventBus");
         dosageForm.setFieldsResourceName("dosageInputFields");
-        dosageForm.addElement(dyTextInput.setName("name").setModel("name").setPlaceHolder("Nome").setEType("text").build());
+        let textInp = dyTextInput.setName("name").setModel("name").setPlaceHolder("Nome").setEType("text");
+        dosageForm.addElement(textInp.build());
         dosageForm.addElement(dyButton.setListName("dosageList").build());
+        dosageForm.setReturnTo("createDyDsgList");
         dosageForm.build();
     }
 
-    $scope.createMvtForm = function () {
+    $scope.createMvtForm = function () {//      
         let mvtForm = dyForm.setId("movementForm").setScope($scope).setListName("'movementList'");
+        mvtForm.setEventBus("eventBus");
         mvtForm.setFieldsResourceName("movementInputFields");
-        mvtForm.addElement(dyLListBox.setModel("medicine").setListName('medicineList').setColumnList("medicine.name, medicine.dosage.name").setLabel("Selecione um medicamento").build());
-        mvtForm.addElement(dyLListBox.setModel("type").setListName('typeList').setColumnList("type.name").setLabel("Selecione o tipo e movimentação").build());
-        mvtForm.addElement(dyTextInput.setModel("quantity").setName('quantity').setPlaceHolder("Quantidade").build());
+        mvtForm.addElement(dyListBox.setModel("medicine").setListName('medicineList').setColumnList("medicine.name, medicine.dosage.name").setTrackBy("name").setLabel("Selecione um medicamento").build());
+        mvtForm.addElement(dyListBox.setModel("type").setListName('typeList').setColumnList("type.name").setTrackBy("name").setLabel("Selecione o tipo e movimentação").build());
+        let textInp = dyTextInput.setModel("quantity").setName('quantity').setPlaceHolder("Quantidade");
+        mvtForm.addElement(textInp.build());
         mvtForm.addElement(dyButton.setListName("movementList").setModList("medicineList").build());
+        mvtForm.setReturnTo("createDyMvtList");
         mvtForm.build();
     }
 
-    $scope.createTypeForm = function () {
+    $scope.createTypForm = function () {
         let typeForm = dyForm.setId("typeForm").setScope($scope).setListName("'typeList'");
+        typeForm.setEventBus("eventBus");
         typeForm.setFieldsResourceName("typeInputFields");
-        typeForm.addElement(dyTextInput.setModel("name").setName("name").setPlaceHolder("Nome").build());
+        let textInp = dyTextInput.setModel("name").setScope($scope).setName("name").setPlaceHolder("Nome");
+        typeForm.addElement(textInp.build());
         typeForm.addElement(dyButton.setListName("typeList").build());
+        typeForm.setReturnTo("createDyTypList");
         typeForm.build();
     }
 
-    $scope.createForms = function () {
-        $scope.createMdcForm();
-        $scope.createDosageForm();
-        $scope.createMvtForm();
-        $scope.createTypeForm();
+    $scope.createDyMdcList = function () {
+        let g = dyGrid.setEventBus($scope.eventBus).setScope($scope).setTableHeader("Medicamentos");
+        g.setGridBuilder("createDyMdcList");
+        g.setListName("medicineList");
+        g.setColumnListName("medicineColumns");
+        g.setModelListName("medicineModels");
+        g.addColumn("ID");
+        g.addModel("id");
+        g.addColumn("Nome");
+        g.addModel("name");
+        g.addColumn("Dosagem");        
+        g.addModel("dosage.name");        
+//        g.addColumn("Dosagemid");
+//        g.addModel("dosage.id");
+        g.addColumn("Quantidade");
+        g.addModel("quantity");
+        g.setAddForm("createMdcForm");
+        g.build();
     }
 
-    $scope.List = List;
-    $scope.createForms();
+    $scope.createDyDsgList = function () {
+        let g = dyGrid.setEventBus($scope.eventBus).setScope($scope).setTableHeader("Dosagens");
+        g.setGridBuilder("createDyDsgList");
+        g.setListName("dosageList");
+        g.setColumnListName("dosageColumns");
+        g.setModelListName("dosageModels");
+        g.addColumn("ID");
+        g.addModel("id");
+        g.addColumn("Nome");
+        g.addModel("name");
+        g.setAddForm("createDsgForm");
+        g.build();
+    }
+
+    $scope.createDyMvtList = function () {
+        let g = dyGrid.setEventBus($scope.eventBus).setScope($scope).setTableHeader("Movimentação");
+        g.setGridBuilder("createDyMvtList");
+        g.setListName("movementList");
+        g.setColumnListName("movementColumns");
+        g.setModelListName("movementModels");
+        g.addColumn("Id");
+        g.addModel("id");
+        g.addColumn("Medicamento");
+        g.addModel("medicine.name");
+        g.addColumn("Tipo");
+        g.addModel("type.name");
+        g.addColumn("Quantidade");
+        g.addModel("quantity");
+        g.setAddForm("createMvtForm");
+        g.build();
+    }
+
+    $scope.createDyTypList = function () {
+        const newScope = $scope.$new();
+        let g = dyGrid.setEventBus($scope.eventBus).setScope(newScope).setTableHeader("Tipo de movimentação");
+        g.setGridBuilder("createDyTypList");
+        g.setListName("typeList");
+        g.setColumnListName("typeColumns");
+        g.setModelListName("typeModels");
+        g.addColumn("ID");
+        g.addModel("id");
+        g.addColumn("Nome");
+        g.addModel("name");
+        g.setAddForm("createTypForm");
+        g.build();
+    }
+
+    $scope.addData = function () {
+        $scope.Store.addItem("dosageList", {name: "Mg"});
+        $scope.Store.addItem("dosageList", {name: "Ml"});
+        $scope.Store.addItem("dosageList", {name: "Unidade"});
+        let dosage = {id: 2, name: "Ml"};
+        let dosagel = {id: 3, name: "Unidade"};
+        let nfo = "Agua(" + dosage.name + ")";
+        $scope.Store.addItem("medicineList", {name: "Agua", dosage: dosage, quantity: 0, info: nfo});
+        $scope.Store.addItem("medicineList", {name: "Limão", dosage: dosagel, quantity: 0, info: nfo});
+        $scope.Store.addItem("typeList", {name: "Entrada"});
+        $scope.Store.addItem("typeList", {name: "Saída"});
+    }
+    $scope.Store = Store;
+    $scope.eventBus.addListener("createDyMdcList", $scope.createDyMdcList);
+    $scope.eventBus.addListener("createDyDsgList", $scope.createDyDsgList);
+    $scope.eventBus.addListener("createDyMvtList", $scope.createDyMvtList);
+    $scope.eventBus.addListener("createDyTypList", $scope.createDyTypList);
+    $scope.eventBus.addListener("createMdcList", $scope.createMdcList);
+    $scope.eventBus.addListener("createDsgList", $scope.createDsgList);
+    $scope.eventBus.addListener("createMvtList", $scope.createMvtList);
+    $scope.eventBus.addListener("createTypList", $scope.createTypList);
+    $scope.eventBus.addListener("createMdcForm", $scope.createMdcForm);
+    $scope.eventBus.addListener("createDsgForm", $scope.createDsgForm);
+    $scope.eventBus.addListener("createMvtForm", $scope.createMvtForm);
+    $scope.eventBus.addListener("createTypForm", $scope.createTypForm);
+
+    $scope.addData();
 });

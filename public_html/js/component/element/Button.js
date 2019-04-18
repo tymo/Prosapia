@@ -6,7 +6,7 @@ angular.module("prosapia").factory('Button', function () {
         if (element.listName) {
             if (element.modList) {
                 newElement.setAttribute("ng-click", "addItem(\'" + element.listName + "\', data, \'" + element.modList + "\')");
-            } else {    
+            } else {
                 newElement.setAttribute("ng-click", "addItem(\'" + element.listName + "\', data)");
             }
         }
