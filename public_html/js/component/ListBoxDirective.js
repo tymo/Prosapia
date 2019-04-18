@@ -70,7 +70,6 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Sto
 //            scope.data.dosage.id = 3;
             scope.Store.setValue(scope.ngModel, null);
         }
-//        return newListBox;
         $compile(newListBox)(scope);
         element.append(newListBox);
     }

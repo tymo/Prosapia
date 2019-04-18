@@ -19,6 +19,7 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
         const LIST_NAME = 0;
         const DATA = 1;
         const MOD_LIST = 2;
+        scope.element = element;
         scope.addBtnVisible = false;
         scope.viewRmvBtnVisible = false;
         scope.currentInput = null;
@@ -26,6 +27,10 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
         scope.element = element;
         scope.Store = Store;
         scope.displayContent = function (params) {
+//            if ($(scope.element).find("#displayArea").children) {
+//               $(scope.element).find("#displayArea").attr(null); 
+//            }
+//            $(scope.element).attr($(scope.element).find("#displayArea"), $(params[CONTENT])); 
             if (document.getElementById("displayArea").childElementCount > 0) {
                 document.getElementById("displayArea").removeChild(document.getElementById("displayArea").children[0]);
             }

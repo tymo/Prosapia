@@ -13,7 +13,7 @@ angular.module("prosapia").directive('gridBuilder', function ($compile, Store) {
         link: link
     };
     function link(scope) {
-        scope.showButtons = function (isChecked) {
+        scope.showButtons = function (isChecked) {            
             if (isChecked) {
                 scope.eventBus.fireEvent("ShowViewRmvBtns");
             } else {
@@ -60,7 +60,6 @@ angular.module("prosapia").directive('gridBuilder', function ($compile, Store) {
             checkBox.setAttribute("ng-model", "Store.getList(listName)[" + idx + "].selected");
 //            checkBox.setAttribute("ng-click", "showButtons()");
             checkBox.setAttribute("ng-change", "showButtons(Store.getList(listName)[" + idx + "].selected)");
-            //ng-change="vm.myClick(vm.myChkModel)"
             TD.appendChild(checkBox);
             TR.appendChild(TD);
             scope.Store.getList(scope.modelList).forEach(function (model) {

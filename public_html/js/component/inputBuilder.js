@@ -82,18 +82,6 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
                 newForm.appendChild(newElement);
                 newForm.appendChild(document.createElement("BR"));
             }
-//            if (scope.Store.getValue(elementInfo.model)) {
-//                let value = scope.Store.getValue(elementInfo.model);
-//                if (value === Object(value)) {
-//                    Object.keys(value).forEach(function (k) {
-//                        scope.data[elementInfo.model] = value[k];
-//                    });
-//                } else {
-//                    scope.data[elementInfo.model] = value;
-//                }
-//            }
-//            scope.Store.setValue(elementInfo.model, null);
-//            }
         });
         $compile(newForm)(scope);
         scope.eventBus.fireEvent("hideViewRmvBtns");
