@@ -1,5 +1,5 @@
 angular.module("prosapia").factory('dyForm', function ($compile, Store, dyTextInput, dyButton, dyListBox) {
-    this.id = null;
+    this.name = null;
     this.listName = null;
     this.returnTo = null;
     this.eventBus = null;
@@ -10,7 +10,7 @@ angular.module("prosapia").factory('dyForm', function ($compile, Store, dyTextIn
         dyTextInput.clear();
         dyListBox.clear();
         dyButton.clear();
-        this.id = null;
+        this.name = null;
         this.listName = null;
         this.returnTo = null;
         this.eventBus = null;
@@ -18,8 +18,8 @@ angular.module("prosapia").factory('dyForm', function ($compile, Store, dyTextIn
         this.scope = null;
     }
 
-    this.setId = function (id) {
-        this.id = id;
+    this.setName = function (name) {
+        this.name = name;
         return this;
     }
 
@@ -62,7 +62,7 @@ angular.module("prosapia").factory('dyForm', function ($compile, Store, dyTextIn
 
     this.build = function () {
         let newForm = document.createElement('input-builder');
-        newForm.setAttribute("id", this.id);
+        newForm.setAttribute("name", this.name);
         newForm.setAttribute("event-bus", this.eventBus);
         newForm.setAttribute("fields-resource-name", this.fieldsResourceName);
         newForm.setAttribute("list-name", this.listName);

@@ -4,7 +4,9 @@ angular.module("prosapia").factory('dyListBox', function (FormElement) {
     this.listName = null;
     this.columnList = null;
     this.label = null;
+    this.name = null;
     this.trackBy = null;
+    this.required = null;
     this.selItem = null;
     this.newElement = null;
 
@@ -15,11 +17,13 @@ angular.module("prosapia").factory('dyListBox', function (FormElement) {
         this.columnList = null;
         this.label = null;
         this.trackBy = null;
+        this.name = null;
         this.newElement = null;
     }
 
     this.setModel = function (model) {
         this.model = model;
+        this.name = model;
         return this;
     }
     this.setScope = function (scope) {
@@ -42,13 +46,17 @@ angular.module("prosapia").factory('dyListBox', function (FormElement) {
         this.trackBy = trackBy;
         return this;
     }
+    this.setRequired = function (required) {
+        this.required = required;
+        return this;
+    }
     this.setSelItem = function (selItem) {
         this.selItem = selItem;
         return this;
     }
     this.build = function () {
         this.type = FormElement.SELECT;
-        return {type: FormElement.SELECT, model: this.model, listName: this.listName, columnList: this.columnList, label: this.label, trackBy: this.trackBy};
+        return {type: FormElement.SELECT, model: this.model, listName: this.listName, columnList: this.columnList, placeHolder: this.label, name: this.name, required: this.required, trackBy: this.trackBy};
     }
 
     return this;

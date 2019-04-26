@@ -15,9 +15,9 @@ angular.module("prosapia").directive('gridBuilder', function ($compile, Store) {
     function link(scope) {
         scope.showButtons = function (isChecked) {            
             if (isChecked) {
-                scope.eventBus.fireEvent("ShowViewRmvBtns");
+                scope.eventBus.fireEvent("incSelectedItemCount");
             } else {
-                scope.eventBus.fireEvent("hideViewRmvBtns");
+                scope.eventBus.fireEvent("decSelectedItemCount");
             }
         }
 

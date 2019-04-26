@@ -14,12 +14,20 @@ angular.module("prosapia").factory('TextInput', function (Store) {
             newTextInput.setAttribute("ng-model", "data." + eInf.model);
             if (Store.getValue(eInf.model)) {
                 eInf.scope.data[eInf.model] = angular.copy(Store.getValue(eInf.model));
-//                newTextInput.value = angular.copy(Store.getValue(elementInfo.model));
                 Store.setValue(eInf.model, null);
             }
         }
         if (eInf.placeHolder) {
             newTextInput.setAttribute('placeHolder', eInf.placeHolder);
+        }
+        if (eInf.disabled) {
+            newTextInput.setAttribute("disabled", "true");
+        }
+        if (eInf.required) {
+            newTextInput.setAttribute("required", "true");
+            newTextInput.addEventListener("blur", function () {
+                Store.set("validateFormInput");
+            });
         }
         return newTextInput;
     }

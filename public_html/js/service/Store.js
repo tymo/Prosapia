@@ -26,15 +26,22 @@ angular.module("prosapia").factory('Store', function () {
             if (!this.store.get(key)) {
                 this.initList(key);
             }
-            keyID = key + ID;
-            if (!this.store.get(keyID)) {
-                this.store.set(keyID, 1);
-            }
-            let nextId = this.store.get(keyID);
-            item.id = nextId;
-            this.store.set(keyID, ++nextId);
-            if (!this.store.get(key).includes(item)) {
-                this.store.get(key).push(item);
+            if (!item.id) {
+                let keyID = key + ID;
+                if (!this.store.get(keyID)) {
+                    this.store.set(keyID, 1);
+                }
+                let nextId = this.store.get(keyID);
+                item.id = nextId;
+                this.store.set(keyID, ++nextId);
+                if (!this.store.get(key).includes(item)) {
+                    this.store.get(key).push(item);
+                }
+            } else {
+                let idx = this.store.get(key).indexOf(this.store.get(key).filter(function (itm) {
+                    return itm.id === item.id;
+                })[0]);
+                this.store.get(key)[idx] = item;
             }
             if (modList && item) {
                 if (this.store.get(modList).includes(item.medicine)) {
@@ -53,7 +60,8 @@ angular.module("prosapia").factory('Store', function () {
         removeItem: function (key, item) {
             if (this.store.get(key)) {
                 if (this.store.get(key).includes(item)) {
-                    delete this.store.get(key).splice(this.store.get(key).indexOf(item), 1);
+                    delete this.store.get(key).splice(this.store.get(key).indexOf(item), 1)
+                    ;
                 }
             }
         },
@@ -69,10 +77,16 @@ angular.module("prosapia").factory('Store', function () {
         initList: function (key) {
             this.store.set(key, []);
         },
-        setValue: function (key, value) {                        
+        subscribe: function (property, func) {
+            this.store.subscribe(property, func);
+        },
+        set: function (property, value) {
+            this.store.set(property, value);
+        },
+        setValue: function (key, value) {
             this.store.set(key, value);
         },
-        getValue: function (key) {                        
+        getValue: function (key) {
             return this.store.get(key);
         }
     }

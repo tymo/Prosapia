@@ -5,7 +5,8 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Sto
             columnList: "@",
             trackBy: "@",
             ngModel: "@",
-            label: "@"
+            label: "@",
+            required: "@"
         },
         link: link
     };
@@ -45,6 +46,7 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Sto
         }
         if (scope.ngModel) {
             newListBox.setAttribute("ng-model", "data." + scope.ngModel);
+            newListBox.name = scope.ngModel;
         }
         if (scope.listName) {
             let opts = base_query.replace("<model>", scope.ngModel).replace("<listName>", scope.listName);
@@ -60,6 +62,12 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Sto
             opt.setAttribute("value", "");
             opt.setAttribute("label", scope.label);
             newListBox.appendChild(opt);
+        }
+        if (scope.required) {
+            newListBox.setAttribute("required", "true");
+            newListBox.addEventListener("blur", function () {
+                Store.set("validateFormInput");
+            });
         }
         if (!scope.data) {
             scope.data = {};

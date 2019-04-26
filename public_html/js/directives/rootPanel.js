@@ -5,8 +5,8 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
         template:
                 '<div id="rootPanel" class="panel">\
                 <button name="addButton" class="addButton"  ng-click="showInput()" ng-show="canShowAddBtn()">Adicionar</button>\
-                <button name="addButton" class="addButton"  ng-click="eventBus.fireEvent(\'showSelected\')" ng-show="canShowViewRmvBtns()">Ver</button>\
-                <button name="addButton" class="addButton"  ng-click="removeSelected()" ng-show="canShowViewRmvBtns()">Excluir</button>\
+                <button name="addButton" class="addButton"  ng-click="eventBus.fireEvent(\'showSelected\')" ng-show="canShowViewBtn()">Ver</button>\
+                <button name="addButton" class="addButton"  ng-click="removeSelected()" ng-show="canShowRmvBtn()">Excluir</button>\
                 <div id="displayArea">\
                 </div>\
                 </div>'
@@ -21,16 +21,14 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
         const MOD_LIST = 2;
         scope.element = element;
         scope.addBtnVisible = false;
-        scope.viewRmvBtnVisible = false;
+        scope.viewBtnVisible = false;
+        scope.removeBtnVisible = false;
         scope.currentInput = null;
-        scope.lastShiwnGrid = null;
+        scope.lastShownGrid = null;
         scope.element = element;
+        scope.selectedCount = 0;
         scope.Store = Store;
         scope.displayContent = function (params) {
-//            if ($(scope.element).find("#displayArea").children) {
-//               $(scope.element).find("#displayArea").attr(null); 
-//            }
-//            $(scope.element).attr($(scope.element).find("#displayArea"), $(params[CONTENT])); 
             if (document.getElementById("displayArea").childElementCount > 0) {
                 document.getElementById("displayArea").removeChild(document.getElementById("displayArea").children[0]);
             }
@@ -42,7 +40,7 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
                 scope.currentInput = params[INPUT_NAME];
             }
             if (params[GRID_NAME]) {
-                scope.lastShiwnGrid = params[GRID_NAME];
+                scope.lastShownGrid = params[GRID_NAME];
             }
         };
 
@@ -52,21 +50,45 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
             } else if (params[LIST_NAME] && params[DATA]) {
                 Store.addItem(params[LIST_NAME], params[DATA]);
             }
-            if (scope.lastShiwnGrid) {
-                scope.eventBus.fireEvent(scope.lastShiwnGrid)
+            if (scope.lastShownGrid) {
+                scope.eventBus.fireEvent(scope.lastShownGrid)
             }
         }
 
-        scope.ShowViewRmvBtns = function () {
-            scope.viewRmvBtnVisible = true;
+        scope.incSelectedItemCount = function () {
+            scope.selectedCount++;
+            if (scope.selectedCount === 1) {
+                scope.viewBtnVisible = true;
+                scope.removeBtnVisible = true;
+            } else if (scope.selectedCount > 1) {
+                scope.viewBtnVisible = false;
+                scope.removeBtnVisible = true;
+            }
         }
 
-        scope.hideViewRmvBtns = function () {
-            scope.viewRmvBtnVisible = false;
+        scope.decSelectedItemCount = function (hide) {
+            if(hide) {
+                scope.selectedCount = 0;
+            } else {
+                scope.selectedCount--;
+            }            
+            if (scope.selectedCount === 0) {
+                scope.viewBtnVisible = false;
+                scope.removeBtnVisible = false;
+            } else if (scope.selectedCount === 1) {
+                scope.viewBtnVisible = true;
+            } else {
+                scope.viewBtnVisible = false;
+                scope.removeBtnVisible = true;
+            }
         }
 
-        scope.canShowViewRmvBtns = function () {
-            return scope.viewRmvBtnVisible;
+        scope.canShowRmvBtn = function () {
+            return scope.removeBtnVisible;
+        }
+
+        scope.canShowViewBtn = function () {
+            return scope.viewBtnVisible;
         }
 
         scope.showAddBtn = function () {
@@ -88,16 +110,17 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
         }
 
         scope.removeSelected = function () {
+            scope.eventBus.fireEvent("decSelectedItemCount", true);
             scope.eventBus.fireEvent("removeSelected");
-            if (scope.lastShiwnGrid) {
-                scope.eventBus.fireEvent(scope.lastShiwnGrid);
+            if (scope.lastShownGrid) {
+                scope.eventBus.fireEvent(scope.lastShownGrid);
             }
         }
 
         scope.eventBus.addListener("addItem", scope.addItem);
         scope.eventBus.addListener("displayContent", scope.displayContent);
-        scope.eventBus.addListener("ShowViewRmvBtns", scope.ShowViewRmvBtns);
-        scope.eventBus.addListener("hideViewRmvBtns", scope.hideViewRmvBtns);
+        scope.eventBus.addListener("incSelectedItemCount", scope.incSelectedItemCount);
+        scope.eventBus.addListener("decSelectedItemCount", scope.decSelectedItemCount);
         scope.eventBus.addListener("showAddBtn", scope.showAddBtn);
         scope.eventBus.addListener("hideAddBtn", scope.hideAddBtn);
     }
