@@ -83,7 +83,6 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
         };
         scope.addItem = function (listName, data, modList) {
             scope.data = data;
-//            if (scope[scope.name].$valid) {
             if (scope.validateFormInput()) {
                 if (modList && listName && scope.data) {
                     scope.Store.getList(scope.fieldsResourceName).forEach(function (elementInfo) {
@@ -103,17 +102,17 @@ angular.module("prosapia").directive('inputBuilder', function ($compile, FormEle
                 } else if (listName && scope.data) {
                     scope.Store.getList(scope.fieldsResourceName).forEach(function (elementInfo) {
                         if (elementInfo.type === FormElement.SELECT) {
-                            let elmList = scope.getAllElementsWithAttribute("ng-model");
-                            elmList.forEach(function (elem) {
-                                if (elem.getAttribute("ng-model") === ("data." + elementInfo.model)) {
-                                    if (angular.element(elem).scope().handler().getSelectedItem()) {
-                                        scope.data[elementInfo.model] = angular.element(elem).scope().handler().getSelectedItem();
+                            if (elementInfo.required) {
+                                let elmList = scope.getAllElementsWithAttribute("ng-model");
+                                elmList.forEach(function (elem) {
+                                    if (elem.getAttribute("ng-model") === ("data." + elementInfo.model)) {
+                                        if (angular.element(elem).scope().handler().getSelectedItem()) {
+                                            scope.data[elementInfo.model] = angular.element(elem).scope().handler().getSelectedItem();
 //                                        angular.element(elem).scope().handler().clearSelection();
-                                    } else {
-                                        scope.data[elementInfo.model] = null;
+                                        }
                                     }
-                                }
-                            })
+                                })
+                            }
                         }
                     });
                     scope.eventBus.fireEvent("addItem", [listName, scope.data]);

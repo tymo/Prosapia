@@ -65,7 +65,7 @@ angular.module("prosapia").directive('gridBuilder', function ($compile, Store) {
             scope.Store.getList(scope.modelList).forEach(function (model) {
                 TD = document.createElement('TD');
                 TD.className = "gridItem";
-                if (model.includes(".")) {
+                if (model.includes(".") && row[model.split(".")[0]]) {
                     TD.appendChild(document.createTextNode(row[model.split(".")[0]][model.split(".")[1]]));
                 } else {
                     if (!row[model]) {
