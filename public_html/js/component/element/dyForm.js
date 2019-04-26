@@ -61,7 +61,7 @@ angular.module("prosapia").factory('dyForm', function ($compile, Store, dyTextIn
     }
 
     this.build = function () {
-        let newForm = document.createElement('input-builder');
+        let newForm = document.createElement('input-builder-directive');
         newForm.setAttribute("name", this.name);
         newForm.setAttribute("event-bus", this.eventBus);
         newForm.setAttribute("fields-resource-name", this.fieldsResourceName);

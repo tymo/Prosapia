@@ -1,4 +1,4 @@
-angular.module("prosapia").directive('gridBuilder', function ($compile, Store) {
+angular.module("prosapia").directive('gridBuilderDirective', function ($compile, Store) {
     return {
         scope: {
             id: "@",

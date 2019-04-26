@@ -12,10 +12,6 @@ angular.module("prosapia").factory('ListBox', function ($compile, Store) {
             newListBox.setAttribute("required", "true");
         }
         newListBox.setAttribute("label", eInf.placeHolder);
-//        if (eInf.Store.getValue(eInf.model)) {
-//            eInf.scope.data[eInf.model] = angular.copy(eInf.Store.getValue(eInf.model));
-//            eInf.Store.setValue(eInf.model, null);
-//        }
         return newListBox;
     }
 

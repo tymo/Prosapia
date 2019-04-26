@@ -1,4 +1,4 @@
-angular.module("prosapia").directive('inputBuilder', function ($compile, FormElement, Store) {
+angular.module("prosapia").directive('inputBuilderDirective', function ($compile, FormElement, Store) {
     return {
         scope: {
             name: "@",

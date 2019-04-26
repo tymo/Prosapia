@@ -95,7 +95,7 @@ angular.module("prosapia").factory('dyGrid', function ($compile, Store) {
     }
 
     this.build = function () {
-        let newGrid = document.createElement('grid-builder');
+        let newGrid = document.createElement('grid-builder-directive');
         newGrid.setAttribute("table-header", this.tableHeader);
         newGrid.setAttribute("list-name", this.listName);
         newGrid.setAttribute("event-bus", "eventBus");
