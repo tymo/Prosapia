@@ -13,7 +13,7 @@ angular.module("prosapia").directive('gridBuilderDirective', function ($compile,
         link: link
     };
     function link(scope) {
-        scope.showButtons = function (isChecked) {            
+        scope.changeSelection = function (isChecked) {            
             if (isChecked) {
                 scope.eventBus.fireEvent("incSelectedItemCount");
             } else {
@@ -58,8 +58,8 @@ angular.module("prosapia").directive('gridBuilderDirective', function ($compile,
             checkBox = document.createElement("INPUT");
             checkBox.setAttribute("type", "checkbox");
             checkBox.setAttribute("ng-model", "Store.getList(listName)[" + idx + "].selected");
-//            checkBox.setAttribute("ng-click", "showButtons()");
-            checkBox.setAttribute("ng-change", "showButtons(Store.getList(listName)[" + idx + "].selected)");
+//            checkBox.setAttribute("ng-click", "changeSelection()");
+            checkBox.setAttribute("ng-change", "changeSelection(Store.getList(listName)[" + idx + "].selected)");
             TD.appendChild(checkBox);
             TR.appendChild(TD);
             scope.Store.getList(scope.modelList).forEach(function (model) {

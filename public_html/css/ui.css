@@ -102,3 +102,33 @@ td {
     color: white;
     background-color: blue;
 }
+
+.addButton:hover {
+    display: inline-block;
+    font-size: 18px;  
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    color: white;
+    background-color: blue;
+}
+
+.addButton:disabled {
+    display: inline-block;
+    font-size: 18px;  
+    text-align: center;
+    vertical-align: middle;
+    cursor: not-allowed;
+    color: white;
+    background-color: lightblue;
+}
+
+.cancelButton {
+    display: inline-block;
+    font-size: 18px;  
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    color: black;
+    background-color: gray;
+}

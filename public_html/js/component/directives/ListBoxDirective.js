@@ -33,7 +33,6 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Sto
         const base_query = 'combine([<columnList>]) for <model> in Store.getList(\'<listName>\')';
         const base_track = ' track by <model>.<trackBy>';
         scope.Store = Store;
-        let newListBox = document.createElement('SELECT');
         scope.combine = function (params) {
             let comb = "";
             params.forEach(function (param) {
@@ -44,6 +43,7 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Sto
             })
             return comb;
         }
+        let newListBox = document.createElement('SELECT');
         if (scope.ngModel) {
             newListBox.setAttribute("ng-model", "data." + scope.ngModel);
             newListBox.name = scope.ngModel;

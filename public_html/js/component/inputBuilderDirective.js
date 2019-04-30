@@ -71,9 +71,7 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
                 if (document.getElementById("errorDiv")) {
                     scope.newForm.removeChild(document.getElementById("errorDiv"));
                 }
-//                if (!document.getElementById("errorDiv")) {
                 scope.newForm.prepend(div);
-//                }
             } else {
                 if (document.getElementById("errorDiv")) {
                     scope.newForm.removeChild(document.getElementById("errorDiv"));
@@ -92,7 +90,7 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
                                 if (elem.getAttribute("ng-model") === ("data." + elementInfo.model)) {
                                     if (angular.element(elem).scope().handler().getSelectedItem()) {
                                         scope.data[elementInfo.model] = angular.element(elem).scope().handler().getSelectedItem();
-                                        angular.element(elem).scope().handler().clearSelection();
+//                                        angular.element(elem).scope().handler().clearSelection();
                                     }
                                 }
                             });
@@ -102,17 +100,16 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
                 } else if (listName && scope.data) {
                     scope.Store.getList(scope.fieldsResourceName).forEach(function (elementInfo) {
                         if (elementInfo.type === FormElement.SELECT) {
-                            if (elementInfo.required) {
-                                let elmList = scope.getAllElementsWithAttribute("ng-model");
-                                elmList.forEach(function (elem) {
-                                    if (elem.getAttribute("ng-model") === ("data." + elementInfo.model)) {
-                                        if (angular.element(elem).scope().handler().getSelectedItem()) {
-                                            scope.data[elementInfo.model] = angular.element(elem).scope().handler().getSelectedItem();
-//                                        angular.element(elem).scope().handler().clearSelection();
-                                        }
+//                            if (elementInfo.required) {
+                            let elmList = scope.getAllElementsWithAttribute("ng-model");
+                            elmList.forEach(function (elem) {
+                                if (elem.getAttribute("ng-model") === ("data." + elementInfo.model)) {
+                                    if (angular.element(elem).scope().handler().getSelectedItem()) {
+                                        scope.data[elementInfo.model] = angular.element(elem).scope().handler().getSelectedItem();
                                     }
-                                })
-                            }
+                                }
+                            });
+//                            }
                         }
                     });
                     scope.eventBus.fireEvent("addItem", [listName, scope.data]);
@@ -121,7 +118,10 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
                     }
                 }
             }
-        }
+        };
+        scope.cancelOperation = function (returnTo) {
+            scope.eventBus.fireEvent(returnTo);
+        };
         scope.combine = function (params) {
             let comb = "";
             params.forEach(function (param) {
@@ -131,7 +131,7 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
                 comb += param;
             })
             return comb;
-        }
+        };
         scope.newForm = document.createElement("FORM");
         scope.newForm.setAttribute("novalidate", true);
         scope.Store = Store;
@@ -146,7 +146,9 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
             let newElement = FormElement.getElement(elementInfo, scope);
             if (newElement) {
                 scope.newForm.appendChild(newElement);
-                scope.newForm.appendChild(document.createElement("BR"));
+                if (elementInfo.type !== FormElement.BUTTONSUBMIT) {
+                    scope.newForm.appendChild(document.createElement("BR"));
+                }
             }
         });
         $compile(scope.newForm)(scope);

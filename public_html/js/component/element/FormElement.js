@@ -1,8 +1,9 @@
-angular.module("prosapia").factory('FormElement', function (Button, TextInput, ListBox) {
+angular.module("prosapia").factory('FormElement', function (ButtonSubmit, ButtonCancel, TextInput, ListBox) {
     return {
         TEXTINPUT: TextInput,
         SELECT: ListBox,
-        BUTTONSUBMIT: Button,
+        BUTTONSUBMIT: ButtonSubmit,
+        BUTTONCANCEL: ButtonCancel,
 
         getElement: function (elemInfo) {
             newElement = null;
@@ -20,6 +21,11 @@ angular.module("prosapia").factory('FormElement', function (Button, TextInput, L
                 case this.BUTTONSUBMIT:
                 {
                     newElement = this.BUTTONSUBMIT(elemInfo);
+                    break;
+                }
+                case this.BUTTONCANCEL:
+                {
+                    newElement = this.BUTTONCANCEL(elemInfo);
                     break;
                 }
             }

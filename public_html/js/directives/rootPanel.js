@@ -4,12 +4,12 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
         link: link,
         template:
                 '<div id="rootPanel" class="panel">\
-                <button name="addButton" class="addButton"  ng-click="showInput()" ng-show="canShowAddBtn()">Adicionar</button>\
-                <button name="addButton" class="addButton"  ng-click="eventBus.fireEvent(\'showSelected\')" ng-show="canShowViewBtn()">Ver</button>\
-                <button name="addButton" class="addButton"  ng-click="removeSelected()" ng-show="canShowRmvBtn()">Excluir</button>\
-                <div id="displayArea">\
-                </div>\
-                </div>'
+    <button name="addButton" class="addButton" ng-click="showInput()" ng-show="canShowButtons()"  ng-disabled="isAddButtonEnabled()">Adicionar</button>\
+    <button name="addButton" class="addButton" ng-click="eventBus.fireEvent(\'showSelected\')" ng-show="canShowButtons()"  ng-disabled="isViewButtonDisabled()">Ver</button>\
+    <button name="addButton" class="addButton" ng-click="removeSelected()" ng-show="canShowButtons()"  ng-disabled="canShowRmvBtn()">Excluir</button>\
+    <div id="displayArea">\
+    </div>\
+    </div>'
     };
     function link(scope, element) {
         const CONTENT = 0;
@@ -21,8 +21,8 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
         const MOD_LIST = 2;
         scope.element = element;
         scope.addBtnVisible = false;
-        scope.viewBtnVisible = false;
-        scope.removeBtnVisible = false;
+        scope.viewBtnEnable = false;
+        scope.removeBtnEnable = false;
         scope.currentInput = null;
         scope.lastShownGrid = null;
         scope.element = element;
@@ -58,37 +58,37 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
         scope.incSelectedItemCount = function () {
             scope.selectedCount++;
             if (scope.selectedCount === 1) {
-                scope.viewBtnVisible = true;
-                scope.removeBtnVisible = true;
+                scope.viewBtnEnable = true;
+                scope.removeBtnEnable = true;
             } else if (scope.selectedCount > 1) {
-                scope.viewBtnVisible = false;
-                scope.removeBtnVisible = true;
+                scope.viewBtnEnable = false;
+                scope.removeBtnEnable = true;
             }
         }
 
         scope.decSelectedItemCount = function (hide) {
-            if(hide) {
+            if (hide) {
                 scope.selectedCount = 0;
             } else {
                 scope.selectedCount--;
-            }            
+            }
             if (scope.selectedCount === 0) {
-                scope.viewBtnVisible = false;
-                scope.removeBtnVisible = false;
+                scope.viewBtnEnable = false;
+                scope.removeBtnEnable = false;
             } else if (scope.selectedCount === 1) {
-                scope.viewBtnVisible = true;
+                scope.viewBtnEnable = true;
             } else {
-                scope.viewBtnVisible = false;
-                scope.removeBtnVisible = true;
+                scope.viewBtnEnable = false;
+                scope.removeBtnEnable = true;
             }
         }
 
         scope.canShowRmvBtn = function () {
-            return scope.removeBtnVisible;
+            return !scope.removeBtnEnable;
         }
 
-        scope.canShowViewBtn = function () {
-            return scope.viewBtnVisible;
+        scope.isViewButtonDisabled = function () {
+            return !scope.viewBtnEnable;
         }
 
         scope.showAddBtn = function () {
@@ -99,8 +99,16 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
             scope.addBtnVisible = false;
         }
 
-        scope.canShowAddBtn = function () {
+        scope.canShowButtons = function () {
             return scope.addBtnVisible;
+        }
+
+        scope.isAddButtonEnabled = function () {
+            if (scope.addBtnVisible) {
+                return false;
+            } else {
+                return true;
+            }
         }
 
         scope.showInput = function () {
