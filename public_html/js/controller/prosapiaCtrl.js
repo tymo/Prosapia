@@ -65,7 +65,7 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         mvtForm.addElement(dyTextInput.setName("id").setModel("id").setPlaceHolder("Id").setEType("text").setDisabled(true).build());
         mvtForm.addElement(dyListBox.setModel("medicine").setListName('medicineList').setColumnList("medicine.name, medicine.dosage.name").setTrackBy("name").setLabel("Selecione um medicamento").build());
         mvtForm.addElement(dyListBox.setModel("type").setListName('typeList').setColumnList("type.name").setTrackBy("name").setLabel("Selecione o tipo e movimentação").build());
-        mvtForm.addElement(dyTextInput.setModel("quantity").setName('quantity').setPlaceHolder("Quantidade").build());
+        mvtForm.addElement(dyTextInput.setModel("quantity").setName('quantity').setPlaceHolder("Quantidade").setRequired(true).setEType("text").build());
         mvtForm.addElement(dyButton.setListName("movementList").setModList("medicineList").build());
         mvtForm.addElement(dyButtonCancel.setReturnTo("createDyMvtList").build());
         mvtForm.setReturnTo("createDyMvtList");

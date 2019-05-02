@@ -1,35 +1,25 @@
-angular.module("prosapia").factory('TextInput', function (Store) {
-    function build(eInf) {
-        newTextInput = document.createElement('INPUT');
-        if (eInf.name) {
-            newTextInput.name = eInf.name;
+angular.module("prosapia").factory('TextInput', function () {
+    function build(elmInf) {
+        let textInput = document.createElement('text-input-directive');
+        if (elmInf.name) {
+            textInput.setAttribute("name", elmInf.name);
         }
-        if (eInf.eType) {
-            newTextInput.type = eInf.eType;
+        if (elmInf.model) {
+            textInput.setAttribute("ng-model", elmInf.model);
         }
-        if (eInf.model) {
-            if (!eInf.scope.data) {
-                eInf.scope.data = {};
-            }
-            newTextInput.setAttribute("ng-model", "data." + eInf.model);
-            if (Store.getValue(eInf.model)) {
-                eInf.scope.data[eInf.model] = angular.copy(Store.getValue(eInf.model));
-                Store.setValue(eInf.model, null);
-            }
+        if (elmInf.eType) {
+            textInput.setAttribute("type", elmInf.eType);
         }
-        if (eInf.placeHolder) {
-            newTextInput.setAttribute('placeHolder', eInf.placeHolder);
+        if (elmInf.placeHolder) {
+            textInput.setAttribute('placeHolder', elmInf.placeHolder);
         }
-        if (eInf.disabled) {
-            newTextInput.setAttribute("disabled", "true");
+        if (elmInf.disabled) {
+            textInput.setAttribute("disabled", "true");
         }
-        if (eInf.required) {
-            newTextInput.setAttribute("required", "true");
-            newTextInput.addEventListener("blur", function () {
-                Store.set("validateFormInput");
-            });
+        if (elmInf.required) {
+            textInput.setAttribute("required", "true");
         }
-        return newTextInput;
+        return textInput;
     }
     return build;
 });

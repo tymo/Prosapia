@@ -1,4 +1,4 @@
-angular.module("prosapia").factory('ListBox', function ($compile, Store) {
+angular.module("prosapia").factory('ListBox', function () {
 
     function build(eInf) {
         newListBox = document.createElement('list-box-directive');

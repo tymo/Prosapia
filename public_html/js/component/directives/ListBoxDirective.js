@@ -22,9 +22,9 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Sto
 
         scope.selectItem = function (listBox, item) {
             if (listBox) {
-                for (var i = 0, j = listBox.options.length; i < j; ++i) {
-                    if (listBox.options[i].innerHTML === item) {
-                        listBox.selectedIndex = i;
+                for (var idx = 0, j = listBox.options.length; idx < j; ++idx) {
+                    if (listBox.options[idx].innerHTML === item) {
+                        listBox.selectedIndex = idx;
                         break;
                     }
                 }

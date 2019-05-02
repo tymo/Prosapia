@@ -11,7 +11,7 @@ angular.module("prosapia").factory('dyButtonCancel', function (FormElement) {
     }
 
     this.build = function () {
-        this.type = FormElement.BUTTONSUBMIT;
+        this.type = FormElement.BUTTONCANCEL;
         return {type: FormElement.BUTTONCANCEL, returnTo: this.returnTo};
     }
 
