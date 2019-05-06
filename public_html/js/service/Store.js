@@ -20,9 +20,11 @@ angular.module("prosapia").factory('Store', function () {
         }
     }
     const ID = "_ID";
+    const ENTRADA = 1;
+    const SAIDA = 2;
     return {
         store: (this.store || new Store()),
-        addItem: function (key, item, modList) {
+        addItem: function (key, item, modList, modAttName, modAttProp) {
             if (!this.store.get(key)) {
                 this.initList(key);
             }
@@ -43,17 +45,17 @@ angular.module("prosapia").factory('Store', function () {
                 })[0]);
                 this.store.get(key)[idx] = item;
             }
-            if (modList && item) {
-                if (this.store.get(modList).includes(item.medicine)) {
-                    let indx = this.store.get(modList).indexOf(item.medicine);
-                    let qtt = (this.store.get(modList)[indx].quantity || 0);
-                    if (item.type.id === 1) {
-                        modValue = Math.abs(item.quantity);
-                    } else if (item.type.id === 2) {
-                        modValue = Math.abs(item.quantity) * -1;
+            if (modList && modAttName && modAttProp && item) {
+                if (this.store.get(modList).includes(item[modAttName])) {
+                    let indx = this.store.get(modList).indexOf(item[modAttName]);                    
+                    let qtt = (this.store.get(modList)[indx][modAttProp] || 0);
+                    if (item.type.id === ENTRADA) {
+                        modValue = Math.abs(item[modAttProp]);
+                    } else if (item.type.id === SAIDA) {
+                        modValue = Math.abs(item[modAttProp]) * -1;
                     }
                     qtt = qtt + modValue;
-                    this.store.get(modList)[indx].quantity = qtt;
+                    this.store.get(modList)[indx][modAttProp] = qtt;
                 }
             }
         },

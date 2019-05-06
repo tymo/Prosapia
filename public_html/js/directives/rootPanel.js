@@ -19,6 +19,8 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
         const LIST_NAME = 0;
         const DATA = 1;
         const MOD_LIST = 2;
+        const MOD_ATT_NAME = 3;
+        const MOD_ATT_PROP = 4;
         scope.element = element;
         scope.addBtnVisible = false;
         scope.viewBtnEnable = false;
@@ -33,25 +35,42 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
                 document.getElementById("displayArea").removeChild(document.getElementById("displayArea").children[0]);
             }
             document.getElementById("displayArea").appendChild(params[CONTENT]);
-            if (params[SHOW_BUTTONS] === true) {
-                scope.addBtnVisible = params[SHOW_BUTTONS];
+            if (params[GRID_NAME]) {
+                scope.lastShownGrid = params[GRID_NAME];
             }
             if (params[INPUT_NAME]) {
                 scope.currentInput = params[INPUT_NAME];
             }
-            if (params[GRID_NAME]) {
-                scope.lastShownGrid = params[GRID_NAME];
+            if (params[SHOW_BUTTONS] === true) {
+                scope.addBtnVisible = params[SHOW_BUTTONS];
+                scope.viewBtnEnable = false;
+                scope.removeBtnEnable = false;
+                scope.eventBus.fireEvent("reviewSelectedItems", scope.lastShownGrid);
             }
         };
 
         scope.addItem = function (params) {
-            if (params[MOD_LIST] && params[LIST_NAME] && params[DATA]) {
-                Store.addItem(params[LIST_NAME], params[DATA], params[MOD_LIST]);
+            if (params[MOD_LIST] && params[MOD_ATT_NAME] && params[MOD_ATT_PROP] && params[LIST_NAME] && params[DATA]) {
+                Store.addItem(params[LIST_NAME], params[DATA], params[MOD_LIST], params[MOD_ATT_NAME], params[MOD_ATT_PROP]);
             } else if (params[LIST_NAME] && params[DATA]) {
                 Store.addItem(params[LIST_NAME], params[DATA]);
             }
             if (scope.lastShownGrid) {
                 scope.eventBus.fireEvent(scope.lastShownGrid)
+            }
+        }
+
+        scope.setSelectedItemCount = function (count) {
+            scope.selectedCount = count;
+            if (scope.selectedCount === 0) {
+                scope.viewBtnEnable = false;
+                scope.removeBtnEnable = false;
+            } else if (scope.selectedCount === 1) {
+                scope.viewBtnEnable = true;
+                scope.removeBtnEnable = true;
+            } else if (scope.selectedCount > 1) {
+                scope.viewBtnEnable = false;
+                scope.removeBtnEnable = true;
             }
         }
 
@@ -119,7 +138,7 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
 
         scope.removeSelected = function () {
             scope.eventBus.fireEvent("decSelectedItemCount", true);
-            scope.eventBus.fireEvent("removeSelected");
+            scope.eventBus.fireEvent("removeSelected", scope.lastShownGrid);
             if (scope.lastShownGrid) {
                 scope.eventBus.fireEvent(scope.lastShownGrid);
             }
@@ -127,6 +146,7 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
 
         scope.eventBus.addListener("addItem", scope.addItem);
         scope.eventBus.addListener("displayContent", scope.displayContent);
+        scope.eventBus.addListener("setSelectedItemCount", scope.setSelectedItemCount);
         scope.eventBus.addListener("incSelectedItemCount", scope.incSelectedItemCount);
         scope.eventBus.addListener("decSelectedItemCount", scope.decSelectedItemCount);
         scope.eventBus.addListener("showAddBtn", scope.showAddBtn);

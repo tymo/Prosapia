@@ -96,7 +96,7 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
             }
             return valid;
         };
-        scope.addItem = function (listName, data, modList) {
+        scope.addItem = function (listName, data, modList, modAttName, modAttProp) {
             scope.data = data;
             if (scope.validateFormInput()) {
                 if (modList && listName && scope.data) {
@@ -122,7 +122,7 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
                             });
                         }
                     });
-                    scope.eventBus.fireEvent("addItem", [listName, scope.data, modList]);
+                    scope.eventBus.fireEvent("addItem", [listName, scope.data, modList, modAttName, modAttProp]);
                 } else if (listName && scope.data) {
                     scope.Store.getList(scope.fieldsResourceName).forEach(function (elmInfo) {
                         if (elmInfo.type === FormElement.SELECT) {
@@ -184,8 +184,7 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
                 }
             }
         });
-        $compile(scope.newForm)(scope);
-        scope.eventBus.fireEvent("decSelectedItemCount", true);
+        $compile(scope.newForm)(scope);        
         scope.eventBus.fireEvent("hideAddBtn");
         scope.eventBus.fireEvent("displayContent", [scope.newForm, false]);
     }

@@ -40,8 +40,8 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         mdcForm.addElement(dyTextInput.setName("id").setModel("id").setPlaceHolder("Id").setEType("text").setDisabled(true).build());
         mdcForm.addElement(dyTextInput.setModel("name").setName('name').setPlaceHolder("Nome").setEType("text").setRequired(true).build());
         mdcForm.addElement(dyListBox.setModel("dosage").setListName('dosageList').setColumnList("dosage.name").setTrackBy("id").setLabel("Selecione a forma de dosagem").build());
-        mdcForm.addElement(dyButton.setListName("medicineList").build());
-        mdcForm.addElement(dyButtonCancel.setReturnTo("createDyMdcList").build());
+        mdcForm.addElement(dyButton.setClick('addItem("medicineList", data)').build());
+        mdcForm.addElement(dyButtonCancel.setClick('cancelOperation("createDyMdcList")').build());
         mdcForm.setReturnTo("createDyMdcList");
         mdcForm.build();
     }
@@ -52,8 +52,10 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         dosageForm.setFieldsResourceName("dosageInputFields");
         dosageForm.addElement(dyTextInput.setName("id").setModel("id").setPlaceHolder("Id").setEType("text").setDisabled(true).build());
         dosageForm.addElement(dyTextInput.setName("name").setModel("name").setPlaceHolder("Nome").setRequired(true).setEType("text").build());
-        dosageForm.addElement(dyButton.setListName("dosageList").build());
-        dosageForm.addElement(dyButtonCancel.setReturnTo("createDyDsgList").build());
+        dosageForm.addElement(dyButton.setClick('addItem("dosageList", data)').build());
+        dosageForm.addElement(dyButtonCancel.setClick('cancelOperation("createDyDsgList")').build());
+//        dosageForm.addElement(dyButton.setListName("dosageList").build());
+//        dosageForm.addElement(dyButtonCancel.setReturnTo("createDyDsgList").build());
         dosageForm.setReturnTo("createDyDsgList");
         dosageForm.build();
     };
@@ -66,8 +68,10 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         mvtForm.addElement(dyListBox.setModel("medicine").setListName('medicineList').setColumnList("medicine.name, medicine.dosage.name").setTrackBy("name").setLabel("Selecione um medicamento").build());
         mvtForm.addElement(dyListBox.setModel("type").setListName('typeList').setColumnList("type.name").setTrackBy("name").setLabel("Selecione o tipo e movimentação").build());
         mvtForm.addElement(dyTextInput.setModel("quantity").setName('quantity').setPlaceHolder("Quantidade").setRequired(true).setEType("text").build());
-        mvtForm.addElement(dyButton.setListName("movementList").setModList("medicineList").build());
-        mvtForm.addElement(dyButtonCancel.setReturnTo("createDyMvtList").build());
+        mvtForm.addElement(dyButton.setClick('addItem("movementList", data, "medicineList", "medicine", "quantity")').build());
+        mvtForm.addElement(dyButtonCancel.setClick('cancelOperation("createDyMvtList")').build());
+//        mvtForm.addElement(dyButton.setListName("movementList").setModList("medicineList").build());
+//        mvtForm.addElement(dyButtonCancel.setReturnTo("createDyMvtList").build());
         mvtForm.setReturnTo("createDyMvtList");
         mvtForm.build();
     }
@@ -78,8 +82,10 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         typeForm.setFieldsResourceName("typeInputFields");
         typeForm.addElement(dyTextInput.setName("id").setModel("id").setPlaceHolder("Id").setEType("text").setDisabled(true).build());
         typeForm.addElement(dyTextInput.setModel("name").setScope($scope).setName("name").setPlaceHolder("Nome").build());
-        typeForm.addElement(dyButton.setListName("typeList").build());
-        typeForm.addElement(dyButtonCancel.setReturnTo("createDyTypList").build());
+        typeForm.addElement(dyButton.setClick('addItem("typeList", data)').build());
+        typeForm.addElement(dyButtonCancel.setClick('cancelOperation("createDyTypList")').build());
+//        typeForm.addElement(dyButton.setListName("typeList").build());
+//        typeForm.addElement(dyButtonCancel.setReturnTo("createDyTypList").build());
         typeForm.setReturnTo("createDyTypList");
         typeForm.build();
     }

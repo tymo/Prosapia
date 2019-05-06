@@ -1,10 +1,12 @@
 angular.module("prosapia").factory('ButtonCancel', function () {
 
-    function build(element) {
+    function build(elmInfo) {
         let buttonCancel = document.createElement('button-directive');
         buttonCancel.name = "buttonCancel";
-        if (element.returnTo) {
-            buttonCancel.setAttribute("ng-click", "cancelOperation(\'" + element.returnTo + "\')");
+        if (elmInfo.click) {
+            buttonCancel.setAttribute("ng-click", elmInfo.click);
+        } else if (elmInfo.returnTo) {
+            buttonCancel.setAttribute("ng-click", "cancelOperation(\'" + elmInfo.returnTo + "\')");
         }
         buttonCancel.setAttribute("label", "Cancelar")
         buttonCancel.setAttribute("type", "CANCEL");

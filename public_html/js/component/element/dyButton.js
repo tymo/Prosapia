@@ -4,6 +4,7 @@ angular.module("prosapia").factory('dyButton', function (FormElement) {
     this.modItem = null;
     this.modValue = null;
     this.modOpr = null;
+    this.click = null;
 
     this.clear = function () {
         this.listName = null;
@@ -11,6 +12,7 @@ angular.module("prosapia").factory('dyButton', function (FormElement) {
         this.modItem = null;
         this.modValue = null;
         this.modOpr = null;
+        this.click = null;
     }
 
     this.setListName = function (listName) {
@@ -38,9 +40,18 @@ angular.module("prosapia").factory('dyButton', function (FormElement) {
         return this;
     }
 
+    this.setClick = function (click) {
+        this.click = click;
+        return this;
+    }
+
     this.build = function () {
         this.type = FormElement.BUTTONSUBMIT;
-        return {type: FormElement.BUTTONSUBMIT, listName: this.listName, modList: this.modList, modItem: this.modItem, modValue: this.modValue, modOpr: this.modOpr};
+        if (this.click) {
+            return {type: FormElement.BUTTONSUBMIT, click: this.click};
+        } else {
+            return {type: FormElement.BUTTONSUBMIT, listName: this.listName, modList: this.modList, modItem: this.modItem, modValue: this.modValue, modOpr: this.modOpr};
+        }
     }
 
     return this;

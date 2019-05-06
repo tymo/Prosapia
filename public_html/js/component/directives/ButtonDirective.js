@@ -3,6 +3,8 @@ angular.module("prosapia").directive('buttonDirective', function ($compile, Form
         scope: {
             listName: "@",
             modList: "@",
+            modAttName: "@",
+            modAttProp: "@",
             label: "@",
             type: "@",
             returnTo: "@"
@@ -15,7 +17,7 @@ angular.module("prosapia").directive('buttonDirective', function ($compile, Form
             newButton.name = "addButton";
             newButton.type = "submit";
             if (scope.listName) {
-                if (scope.modList) {
+                if (scope.modList && scope.modAttName && scope.modAttProp) {
                     newButton.setAttribute("ng-click", "addItem(\'" + scope.listName + "\', data, \'" + scope.modList + "\')");
                 } else {
                     newButton.setAttribute("ng-click", "addItem(\'" + scope.listName + "\', data)");

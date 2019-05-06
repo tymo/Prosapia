@@ -34,10 +34,10 @@
     </head>
     <body ng-controller="prosapiaCtrl">
         <div id="prosapiaMenu" class="menu">
-            <button class="addButton" ng-click="eventBus.fireEvent('createDyMdcList')">Medicamento</button><br>
-            <button class="addButton" ng-click="eventBus.fireEvent('createDyDsgList')">Dosagem</button><br>
-            <button class="addButton" ng-click="eventBus.fireEvent('createDyMvtList')">Movimentação</button><br>
-            <button class="addButton" ng-click="eventBus.fireEvent('createDyTypList')">Tipo de Movimentação</button><br>
+            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyMdcList')">Medicamento</button-submit><br>
+            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyDsgList')">Dosagem</button-submit><br>
+            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyMvtList')">Movimentação</button-submit><br>
+            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyTypList')">Tipo de Movimentação</button-submit><br>
         </div>
     <root-panel event-bus="eventBus"></root-panel>
 </body>
