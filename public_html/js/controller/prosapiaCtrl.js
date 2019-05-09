@@ -38,8 +38,8 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         mdcForm.setEventBus("eventBus");
         mdcForm.setFieldsResourceName("medicineInputFields");
         mdcForm.addElement(dyTextInput.setName("id").setModel("id").setPlaceHolder("Id").setEType("text").setDisabled(true).build());
-        mdcForm.addElement(dyTextInput.setModel("name").setName('name').setPlaceHolder("Nome").setEType("text").setRequired(true).build());
-        mdcForm.addElement(dyListBox.setModel("dosage").setListName('dosageList').setColumnList("dosage.name").setTrackBy("id").setLabel("Selecione a forma de dosagem").build());
+        mdcForm.addElement(dyTextInput.setModel("name").setName('name').setEventBus("eventBus").setPlaceHolder("Nome").setEType("text").setRequired(true).build());
+        mdcForm.addElement(dyListBox.setModel("dosage").setEventBus("eventBus").setListName('dosageList').setColumnList("dosage.name").setTrackBy("id").setLabel("Selecione a forma de dosagem").setRequired(true).build());
         mdcForm.addElement(dyButton.setClick('addItem("medicineList", data)').build());
         mdcForm.addElement(dyButtonCancel.setClick('cancelOperation("createDyMdcList")').build());
         mdcForm.setReturnTo("createDyMdcList");
@@ -51,11 +51,9 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         dosageForm.setEventBus("eventBus");
         dosageForm.setFieldsResourceName("dosageInputFields");
         dosageForm.addElement(dyTextInput.setName("id").setModel("id").setPlaceHolder("Id").setEType("text").setDisabled(true).build());
-        dosageForm.addElement(dyTextInput.setName("name").setModel("name").setPlaceHolder("Nome").setRequired(true).setEType("text").build());
+        dosageForm.addElement(dyTextInput.setName("name").setModel("name").setEventBus("eventBus").setPlaceHolder("Nome").setRequired(true).setEType("text").build());
         dosageForm.addElement(dyButton.setClick('addItem("dosageList", data)').build());
         dosageForm.addElement(dyButtonCancel.setClick('cancelOperation("createDyDsgList")').build());
-//        dosageForm.addElement(dyButton.setListName("dosageList").build());
-//        dosageForm.addElement(dyButtonCancel.setReturnTo("createDyDsgList").build());
         dosageForm.setReturnTo("createDyDsgList");
         dosageForm.build();
     };
@@ -65,13 +63,11 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         mvtForm.setEventBus("eventBus");
         mvtForm.setFieldsResourceName("movementInputFields");
         mvtForm.addElement(dyTextInput.setName("id").setModel("id").setPlaceHolder("Id").setEType("text").setDisabled(true).build());
-        mvtForm.addElement(dyListBox.setModel("medicine").setListName('medicineList').setColumnList("medicine.name, medicine.dosage.name").setTrackBy("name").setLabel("Selecione um medicamento").build());
+        mvtForm.addElement(dyListBox.setModel("medicine").setListName('medicineList').setColumnList("medicine.name").setTrackBy("id").setLabel("Selecione um medicamento").build());
         mvtForm.addElement(dyListBox.setModel("type").setListName('typeList').setColumnList("type.name").setTrackBy("name").setLabel("Selecione o tipo e movimentação").build());
-        mvtForm.addElement(dyTextInput.setModel("quantity").setName('quantity').setPlaceHolder("Quantidade").setRequired(true).setEType("text").build());
+        mvtForm.addElement(dyTextInput.setModel("quantity").setName('quantity').setPlaceHolder("Quantidade").setRequired(true).setEventBus("eventBus").setEType("text").build());
         mvtForm.addElement(dyButton.setClick('addItem("movementList", data, "medicineList", "medicine", "quantity")').build());
         mvtForm.addElement(dyButtonCancel.setClick('cancelOperation("createDyMvtList")').build());
-//        mvtForm.addElement(dyButton.setListName("movementList").setModList("medicineList").build());
-//        mvtForm.addElement(dyButtonCancel.setReturnTo("createDyMvtList").build());
         mvtForm.setReturnTo("createDyMvtList");
         mvtForm.build();
     }
@@ -81,16 +77,14 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         typeForm.setEventBus("eventBus");
         typeForm.setFieldsResourceName("typeInputFields");
         typeForm.addElement(dyTextInput.setName("id").setModel("id").setPlaceHolder("Id").setEType("text").setDisabled(true).build());
-        typeForm.addElement(dyTextInput.setModel("name").setScope($scope).setName("name").setPlaceHolder("Nome").build());
+        typeForm.addElement(dyTextInput.setModel("name").setScope($scope).setName("name").setPlaceHolder("Nome").setRequired(true).setEventBus("eventBus").build());
         typeForm.addElement(dyButton.setClick('addItem("typeList", data)').build());
         typeForm.addElement(dyButtonCancel.setClick('cancelOperation("createDyTypList")').build());
-//        typeForm.addElement(dyButton.setListName("typeList").build());
-//        typeForm.addElement(dyButtonCancel.setReturnTo("createDyTypList").build());
         typeForm.setReturnTo("createDyTypList");
         typeForm.build();
     }
 
-    $scope.createDyMdcList = function () {
+    $scope.createDyMdcList = function (clearSelection) {
         let g = dyGrid.setEventBus($scope.eventBus).setScope($scope).setTableHeader("Medicamentos");
         g.setGridBuilder("createDyMdcList");
         g.setListName("medicineList");
@@ -101,14 +95,17 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         g.addColumn("Nome");
         g.addModel("name");
         g.addColumn("Dosagem");
-        g.addModel("dosage.name");
+        g.addModel("dosageList.dosage.name");
         g.addColumn("Quantidade");
         g.addModel("quantity");
         g.setAddForm("createMdcForm");
+        if (clearSelection) {
+            g.setClearSelection(clearSelection);
+        }
         g.build();
     }
 
-    $scope.createDyDsgList = function () {
+    $scope.createDyDsgList = function (clearSelection) {
         let g = dyGrid.setEventBus($scope.eventBus).setScope($scope).setTableHeader("Dosagens");
         g.setGridBuilder("createDyDsgList");
         g.setListName("dosageList");
@@ -119,10 +116,13 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         g.addColumn("Nome");
         g.addModel("name");
         g.setAddForm("createDsgForm");
+        if (clearSelection) {
+            g.setClearSelection(clearSelection);
+        }
         g.build();
     }
 
-    $scope.createDyMvtList = function () {
+    $scope.createDyMvtList = function (clearSelection) {
         let g = dyGrid.setEventBus($scope.eventBus).setScope($scope).setTableHeader("Movimentação");
         g.setGridBuilder("createDyMvtList");
         g.setListName("movementList");
@@ -131,16 +131,19 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         g.addColumn("Id");
         g.addModel("id");
         g.addColumn("Medicamento");
-        g.addModel("medicine.name");
+        g.addModel("medicineList.medicine.name");
         g.addColumn("Tipo");
-        g.addModel("type.name");
+        g.addModel("typeList.type.name");
         g.addColumn("Quantidade");
         g.addModel("quantity");
         g.setAddForm("createMvtForm");
+        if (clearSelection) {
+            g.setClearSelection(clearSelection);
+        }
         g.build();
     }
 
-    $scope.createDyTypList = function () {
+    $scope.createDyTypList = function (clearSelection) {
         const newScope = $scope.$new();
         let g = dyGrid.setEventBus($scope.eventBus).setScope(newScope).setTableHeader("Tipo de movimentação");
         g.setGridBuilder("createDyTypList");
@@ -152,6 +155,9 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         g.addColumn("Nome");
         g.addModel("name");
         g.setAddForm("createTypForm");
+        if (clearSelection) {
+            g.setClearSelection(clearSelection);
+        }
         g.build();
     }
 
@@ -162,8 +168,8 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         let dosage = {id: 2, name: "Ml"};
         let dosagel = {id: 3, name: "Unidade"};
         let nfo = "Agua(" + dosage.name + ")";
-        $scope.Store.addItem("medicineList", {name: "Agua", dosage: dosage, quantity: 0, info: nfo});
-        $scope.Store.addItem("medicineList", {name: "Limão", dosage: dosagel, quantity: 0, info: nfo});
+        $scope.Store.addItem("medicineList", {name: "Agua", dosage: 2, quantity: "0", info: nfo});
+        $scope.Store.addItem("medicineList", {name: "Limão", dosage: 3, quantity: "0", info: nfo});
         $scope.Store.addItem("typeList", {name: "Entrada"});
         $scope.Store.addItem("typeList", {name: "Saída"});
     }

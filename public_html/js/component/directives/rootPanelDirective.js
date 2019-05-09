@@ -1,9 +1,9 @@
-angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyForm, dyTextInput, dyButton) {
+angular.module("prosapia").directive('rootPanelDirective', function ($compile, Store, dyForm, dyTextInput, dyButton) {
     return {
         scope: {eventBus: "="},
         link: link,
         template:
-                '<div id="rootPanel" class="panel">\
+                '<div id="rootPanelDirective" class="panel">\
     <button name="addButton" class="addButton" ng-click="showInput()" ng-show="canShowButtons()"  ng-disabled="isAddButtonEnabled()">Adicionar</button>\
     <button name="addButton" class="addButton" ng-click="eventBus.fireEvent(\'showSelected\')" ng-show="canShowButtons()"  ng-disabled="isViewButtonDisabled()">Ver</button>\
     <button name="addButton" class="addButton" ng-click="removeSelected()" ng-show="canShowButtons()"  ng-disabled="canShowRmvBtn()">Excluir</button>\
@@ -16,6 +16,7 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
         const SHOW_BUTTONS = 1;
         const INPUT_NAME = 2;
         const GRID_NAME = 3;
+        const CLEAR_SELECTED = 4;
         const LIST_NAME = 0;
         const DATA = 1;
         const MOD_LIST = 2;
@@ -45,7 +46,11 @@ angular.module("prosapia").directive('rootPanel', function ($compile, Store, dyF
                 scope.addBtnVisible = params[SHOW_BUTTONS];
                 scope.viewBtnEnable = false;
                 scope.removeBtnEnable = false;
-                scope.eventBus.fireEvent("reviewSelectedItems", scope.lastShownGrid);
+                scope.eventBus.fireEvent("reviewSelectedItems", scope.lastShownGrid);                
+            }
+            
+            if (params[CLEAR_SELECTED] === "true") {
+                scope.eventBus.fireEvent("clearSelectedItems", scope.lastShownGrid);
             }
         };
 

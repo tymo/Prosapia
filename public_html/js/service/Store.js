@@ -47,15 +47,39 @@ angular.module("prosapia").factory('Store', function () {
             }
             if (modList && modAttName && modAttProp && item) {
                 if (this.store.get(modList).includes(item[modAttName])) {
-                    let indx = this.store.get(modList).indexOf(item[modAttName]);                    
-                    let qtt = (this.store.get(modList)[indx][modAttProp] || 0);
+                    let indx = this.store.get(modList).indexOf(item[modAttName]);
+                    let newValue = (this.store.get(modList)[indx][modAttProp] || 0);
                     if (item.type.id === ENTRADA) {
                         modValue = Math.abs(item[modAttProp]);
                     } else if (item.type.id === SAIDA) {
                         modValue = Math.abs(item[modAttProp]) * -1;
                     }
-                    qtt = qtt + modValue;
-                    this.store.get(modList)[indx][modAttProp] = qtt;
+                    newValue = newValue + modValue;
+                    this.store.get(modList)[indx][modAttProp] = newValue;
+                }
+            }
+        },
+        getItemPropertyById: function (key, id, prop) {
+            if (this.store.get(key)) {
+                let idx = (this.store.get(key).indexOf(this.store.get(key).filter(function (itm) {
+                    return itm.id === id;
+                })[0]) | null);
+                if (idx != null) {
+                    return this.store.get(key)[idx][prop];
+                } else {
+                    return null;
+                }
+            }
+        },
+        getItemObjectById: function (key, id) {
+            if (this.store.get(key)) {
+                let idx = (this.store.get(key).indexOf(this.store.get(key).filter(function (itm) {
+                    return itm.id === id;
+                })[0]) | null);
+                if (idx != null) {
+                    return this.store.get(key)[idx];
+                } else {
+                    return null;
                 }
             }
         },

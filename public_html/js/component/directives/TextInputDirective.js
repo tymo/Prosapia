@@ -6,11 +6,19 @@ angular.module("prosapia").directive('textInputDirective', function ($compile, S
             ngModel: "@",
             placeHolder: "@",
             disabled: "@",
+            eventBus: "=",
             required: "@"
         },
         link: link
     };
     function link(scope, element) {
+        scope.validateRequired = function (textBox) {
+            if (!textBox.value) {
+                scope.eventBus.fireEvent("addError", ["Por favor preencha o campo " + scope.placeHolder, true]);
+            } else {
+                scope.eventBus.fireEvent("refreshErrorList");
+            }
+        }
         scope.handler = function () {
             return {getValue: function () {
                     return scope.data[scope.ngModel];
@@ -45,7 +53,7 @@ angular.module("prosapia").directive('textInputDirective', function ($compile, S
         if (scope.required) {
             newTextInput.setAttribute("required", "true");
             newTextInput.addEventListener("blur", function () {
-                Store.set("validateFormInput");
+                scope.validateRequired(newTextInput);
             });
         }
         $compile(newTextInput)(scope);

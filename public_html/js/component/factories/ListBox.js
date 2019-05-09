@@ -5,6 +5,9 @@ angular.module("prosapia").factory('ListBox', function () {
         newListBox.setAttribute("ng-model", eInf.model);
         newListBox.setAttribute("list-name", eInf.listName);
         newListBox.setAttribute("column-list", eInf.columnList);
+        if (eInf.eventBus) {
+            newListBox.setAttribute("event-bus", eInf.eventBus);
+        }
         if (eInf.trackBy) {
             newListBox.setAttribute("track-by", eInf.trackBy);
         }

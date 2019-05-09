@@ -8,6 +8,7 @@ angular.module("prosapia").factory('dyGrid', function ($compile, Store) {
     this.tableHeader = null;
     this.addForm = null;
     this.elements = [];
+    this.clearSelection = null;
 
     this.clear = function () {
         this.id = null;
@@ -19,6 +20,7 @@ angular.module("prosapia").factory('dyGrid', function ($compile, Store) {
         this.tableHeader = null;
         this.addForm = null;
         this.elements = [];
+        this.clearSelection = null;
     }
 
     this.setId = function (id) {
@@ -64,6 +66,11 @@ angular.module("prosapia").factory('dyGrid', function ($compile, Store) {
         return this;
     }
 
+    this.setClearSelection = function (clearSelection) {
+        this.clearSelection = clearSelection;
+        return this;
+    }
+
     this.setModelListName = function (modelListName) {
         this.modelList = modelListName;
         return this;
@@ -103,6 +110,7 @@ angular.module("prosapia").factory('dyGrid', function ($compile, Store) {
         newGrid.setAttribute("column-list", this.columnList);
         newGrid.setAttribute("model-list", this.modelList);
         newGrid.setAttribute("add-form", this.addForm);
+        newGrid.setAttribute("clear-selection", this.clearSelection);
         $compile(newGrid)(this.scope);
         this.clear();
     }

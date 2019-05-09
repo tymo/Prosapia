@@ -11,7 +11,10 @@ angular.module("prosapia").factory('TextInput', function () {
             textInput.setAttribute("type", elmInf.eType);
         }
         if (elmInf.placeHolder) {
-            textInput.setAttribute('placeHolder', elmInf.placeHolder);
+            textInput.setAttribute('place-holder', elmInf.placeHolder);
+        }
+        if (elmInf.eventBus) {
+            textInput.setAttribute("event-bus", elmInf.eventBus);
         }
         if (elmInf.disabled) {
             textInput.setAttribute("disabled", "true");

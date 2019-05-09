@@ -4,7 +4,7 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
             name: "@",
             eventBus: "=",
             fieldsResourceName: "@",
-            listName: "=",
+            listName: "@",
             returnTo: "@"
         },
         link: link
@@ -13,70 +13,31 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
         scope.errorList = null;
         scope.getAllElementsWithAttribute = function (attribute)
         {
-            var matchingElements = [];
-            var allElements = document.getElementsByTagName('*');
+            let matchingElements = [];
+            let allElements = document.getElementsByTagName('*');
             for (var i = 0, n = allElements.length; i < n; i++)
             {
                 if (allElements[i].getAttribute(attribute) !== null)
                 {
-                    // Element exists with attribute. Add to array.
+                    // Element exists with attribute to array.
                     matchingElements.push(allElements[i]);
                 }
             }
             return matchingElements;
         }
-        scope.validateFormInput = function () {
-            let valid = true;
-            scope.Store.getList(scope.fieldsResourceName).forEach(function (elmInfo) {
-                if (!elmInfo.disabled) {
-                    if (elmInfo.type === FormElement.SELECT) {
-                        let elmList = scope.getAllElementsWithAttribute("ng-model");
-                        elmList.forEach(function (elem) {
-                            if (elmInfo.required) {
-                                if (elem.getAttribute("ng-model") === ("data." + elmInfo.model)) {
-                                    if (!angular.element(elem).scope().handler().getSelectedItem()) {
-                                        valid = false;
-                                        if (scope.errorList) {
-                                            scope.errorList.push("Por favor " + elmInfo.placeHolder);
-                                        } else {
-                                            scope.errorList = []
-                                            scope.errorList.push("Por favor " + elmInfo.placeHolder);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    } else if (elmInfo.type === FormElement.TEXTINPUT) {
-                        let elmList = scope.getAllElementsWithAttribute("ng-model");
-                        elmList.forEach(function (elem) {
-                            if (elem.getAttribute("ng-model") === ("data." + elmInfo.model)) {
-                                if (!angular.element(elem).scope().handler().getValue()) {
-                                    valid = false;
-                                    if (scope.errorList) {
-                                        scope.errorList.push("Por favor preencha o campo " + elmInfo.placeHolder);
-                                    } else {
-                                        scope.errorList = [];
-                                        scope.errorList.push("Por favor preencha o campo " + elmInfo.placeHolder);
-                                    }
-                                }
-                            }
-                        });
-                    } else {
-                        if (scope[scope.name] && scope[scope.name][elmInfo.name]) {
-                            if (scope[scope.name][elmInfo.name].$invalid) {
-                                valid = false;
-                                if (scope.errorList) {
-                                    scope.errorList.push("Por favor preencha o campo " + elmInfo.placeHolder);
-                                } else {
-                                    scope.errorList = [];
-                                    scope.errorList.push("Por favor preencha o campo " + elmInfo.placeHolder);
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            if (!valid) {
+        const ERROR = 0;
+        const REFRESH = 1;
+        scope.addError = function (params) {
+            if (!scope.errorList) {
+                scope.errorList = [];
+            }
+            scope.errorList.push(params[ERROR]);
+            if (params[REFRESH]) {
+                scope.refreshErrorList();
+            }
+        }
+        scope.refreshErrorList = function () {
+            if (scope.errorList) {
                 let div = document.createElement('DIV');
                 div.id = "errorDiv";
                 div.className = "alert alert-danger";
@@ -86,13 +47,51 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
                 });
                 scope.errorList = null;
                 if (document.getElementById("errorDiv")) {
-                    scope.newForm.removeChild(document.getElementById("errorDiv"));
+                    scope.formElement.removeChild(document.getElementById("errorDiv"));
                 }
-                scope.newForm.prepend(div);
+                scope.formElement.prepend(div);
             } else {
                 if (document.getElementById("errorDiv")) {
-                    scope.newForm.removeChild(document.getElementById("errorDiv"));
+                    scope.formElement.removeChild(document.getElementById("errorDiv"));
                 }
+            }
+        }
+        scope.validateFormInput = function () {
+            let valid = true;
+            scope.Store.getList(scope.fieldsResourceName).forEach(function (elmInfo) {
+                if (!elmInfo.disabled && elmInfo.required) {
+                    if (elmInfo.type === FormElement.SELECT) {
+                        let elmList = scope.getAllElementsWithAttribute("ng-model");
+                        elmList.forEach(function (elem) {
+                            if (elem.getAttribute("ng-model") === ("data." + elmInfo.model)) {
+                                if (!angular.element(elem).scope().handler().getSelectedItem()) {
+                                    valid = false;
+                                    scope.addError(["Por favor " + elmInfo.placeHolder, false]);
+                                }
+                            }
+                        });
+                    } else if (elmInfo.type === FormElement.TEXTINPUT) {
+                        let elmList = scope.getAllElementsWithAttribute("ng-model");
+                        elmList.forEach(function (elem) {
+                            if (elem.getAttribute("ng-model") === ("data." + elmInfo.model)) {
+                                if (!angular.element(elem).scope().handler().getValue()) {
+                                    valid = false;
+                                    scope.addError(["Por favor preencha o campo " + elmInfo.placeHolder, false]);
+                                }
+                            }
+                        });
+                    } else {
+                        if (scope[scope.name] && scope[scope.name][elmInfo.name]) {
+                            if (scope[scope.name][elmInfo.name].$invalid) {
+                                valid = false;
+                                scope.addError(["Por favor preencha o campo " + elmInfo.placeHolder, false]);
+                            }
+                        }
+                    }
+                }
+            });
+            if (!valid) {
+                scope.refreshErrorList();
             }
             return valid;
         };
@@ -165,11 +164,11 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
             })
             return comb;
         };
-        scope.newForm = document.createElement("FORM");
-        scope.newForm.setAttribute("novalidate", true);
+        scope.formElement = document.createElement("FORM");
+        scope.formElement.setAttribute("novalidate", true);
         scope.Store = Store;
         scope.Store.subscribe("validateFormInput", scope.validateFormInput);
-        scope.newForm.name = scope.name;
+        scope.formElement.name = scope.name;
         if (!scope.data) {
             scope.data = {};
         }
@@ -178,14 +177,17 @@ angular.module("prosapia").directive('inputBuilderDirective', function ($compile
             elmInfo.Store = scope.Store;
             let newElement = FormElement.getElement(elmInfo, scope);
             if (newElement) {
-                scope.newForm.appendChild(newElement);
+                scope.formElement.appendChild(newElement);
                 if (elmInfo.type !== FormElement.BUTTONSUBMIT) {
-                    scope.newForm.appendChild(document.createElement("BR"));
+                    scope.formElement.appendChild(document.createElement("BR"));
                 }
             }
         });
-        $compile(scope.newForm)(scope);        
+        $compile(scope.formElement)(scope);
+
+        scope.eventBus.addListener("refreshErrorList", scope.refreshErrorList);
+        scope.eventBus.addListener("addError", scope.addError);
         scope.eventBus.fireEvent("hideAddBtn");
-        scope.eventBus.fireEvent("displayContent", [scope.newForm, false]);
+        scope.eventBus.fireEvent("displayContent", [scope.formElement, false]);
     }
 });

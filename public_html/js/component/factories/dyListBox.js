@@ -8,6 +8,7 @@ angular.module("prosapia").factory('dyListBox', function (FormElement) {
     this.trackBy = null;
     this.required = null;
     this.selItem = null;
+    this.eventBus = null;
     this.newElement = null;
 
     this.clear = function () {
@@ -18,6 +19,7 @@ angular.module("prosapia").factory('dyListBox', function (FormElement) {
         this.label = null;
         this.trackBy = null;
         this.name = null;
+        this.eventBus = null;
         this.newElement = null;
     }
 
@@ -32,6 +34,10 @@ angular.module("prosapia").factory('dyListBox', function (FormElement) {
     }
     this.setListName = function (listName) {
         this.listName = listName;
+        return this;
+    }
+    this.setEventBus = function (eventBus) {
+        this.eventBus = eventBus;
         return this;
     }
     this.setColumnList = function (columnList) {
@@ -56,7 +62,7 @@ angular.module("prosapia").factory('dyListBox', function (FormElement) {
     }
     this.build = function () {
         this.type = FormElement.SELECT;
-        return {type: FormElement.SELECT, model: this.model, listName: this.listName, columnList: this.columnList, placeHolder: this.label, name: this.name, required: this.required, trackBy: this.trackBy};
+        return {type: FormElement.SELECT, model: this.model, listName: this.listName, columnList: this.columnList, placeHolder: this.label, name: this.name, required: this.required, eventBus: this.eventBus, trackBy: this.trackBy};
     }
 
     return this;

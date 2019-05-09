@@ -2,6 +2,7 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Sto
     return {
         scope: {
             listName: "@",
+            eventBus: "=",
             columnList: "@",
             trackBy: "@",
             ngModel: "@",
@@ -13,7 +14,8 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Sto
     function link(scope, element) {
         scope.handler = function () {
             return {getSelectedItem: function () {
-                    return scope.data[scope.ngModel];
+                    return scope.data[scope.ngModel]["id"];
+//                    return scope.Store.getItemPropertyById(scope.listName, scope.data[scope.ngModel]);
                 },
                 clearSelection: function () {
                     delete scope.data;
@@ -43,6 +45,13 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Sto
             })
             return comb;
         }
+        scope.validateRequired = function (listBox) {
+            if (!listBox.value) {
+                scope.eventBus.fireEvent("addError", ["Por facor " + scope.label, true]);
+            } else {
+                scope.eventBus.fireEvent("refreshErrorList");
+            }
+        }
         let newListBox = document.createElement('SELECT');
         if (scope.ngModel) {
             newListBox.setAttribute("ng-model", "data." + scope.ngModel);
@@ -66,20 +75,18 @@ angular.module("prosapia").directive('listBoxDirective', function ($compile, Sto
         if (scope.required) {
             newListBox.setAttribute("required", "true");
             newListBox.addEventListener("blur", function () {
-                Store.set("validateFormInput");
+                scope.validateRequired(newListBox);
             });
         }
         if (!scope.data) {
             scope.data = {};
         }
         if (scope.Store.getValue(scope.ngModel)) {
-            scope.data[scope.ngModel] = angular.copy(scope.Store.getValue(scope.ngModel));
-//            scope.data.dosage.name = angular.copy(scope.Store.getValue(scope.ngModel));
-//            scope.data.dosage.id = 3;
+            let id = angular.copy(scope.Store.getValue(scope.ngModel));
+            scope.data[scope.ngModel] = scope.Store.getItemObjectById(scope.listName, id);
             scope.Store.setValue(scope.ngModel, null);
         }
         $compile(newListBox)(scope);
         element.append(newListBox);
     }
-
 });

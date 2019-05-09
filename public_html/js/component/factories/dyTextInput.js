@@ -5,6 +5,7 @@ angular.module("prosapia").factory('dyTextInput', function (FormElement) {
     this.disabled = null;
     this.required = null;
     this.value = null;
+    this.eventBus = null;
     this.eType = null;
 
     this.clear = function () {
@@ -15,7 +16,13 @@ angular.module("prosapia").factory('dyTextInput', function (FormElement) {
         this.scope = null;
         this.eType = null;
         this.disabled = null;
+        this.eventBus = null;
         this.required = null;
+    }
+    
+    this.setEventBus = function (eventBus) {
+        this.eventBus = eventBus;
+        return this;
     }
 
     this.setName = function (name) {
@@ -59,8 +66,7 @@ angular.module("prosapia").factory('dyTextInput', function (FormElement) {
     }
 
     this.build = function () {
-        this.type = FormElement.TEXTINPUT;
-        let inp = angular.copy({type: FormElement.TEXTINPUT, name: this.name, model: this.model, placeHolder: this.placeHolder, value: this.value, eType: this.eType, disabled: this.disabled, required: this.required});
+        let inp = angular.copy({type: FormElement.TEXTINPUT, name: this.name, model: this.model, placeHolder: this.placeHolder, value: this.value, eType: this.eType, disabled: this.disabled, eventBus: this.eventBus, required: this.required});
         this.clear();
         return inp;
     }

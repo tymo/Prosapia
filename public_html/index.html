@@ -9,36 +9,36 @@
         <script src="lib/moment/moment.js"></script>
 
         <script src="js/controller/prosapiaCtrl.js"></script>
-        <script src="js/directives/rootPanel.js"></script>
-        <script src="js/directives/uiDateDirective.js"></script>
-        <script src="js/directives/uiTimeDirective.js"></script>
-
+        
+        <script src="js/component/directives/uiDateDirective.js"></script>
+        <script src="js/component/directives/uiTimeDirective.js"></script>
+        <script src="js/component/directives/rootPanelDirective.js"></script>
         <script src="js/component/directives/inputBuilderDirective.js"></script>
         <script src="js/component/directives/gridBuilderDirective.js"></script>
         <script src="js/component/directives/ListBoxDirective.js"></script>
         <script src="js/component/directives/TextInputDirective.js"></script>
         <script src="js/component/directives/ButtonDirective.js"></script>
-        <script src="js/component/element/FormElement.js"></script>
-        <script src="js/component/element/ButtonSubmit.js"></script>
-        <script src="js/component/element/Buttoncancel.js"></script>
-        <script src="js/component/element/TextInput.js"></script>
-        <script src="js/component/element/ListBox.js"></script>
+        <script src="js/component/factories/FormElement.js"></script>
+        <script src="js/component/factories/ButtonSubmit.js"></script>
+        <script src="js/component/factories/ButtonCancel.js"></script>
+        <script src="js/component/factories/TextInput.js"></script>
+        <script src="js/component/factories/ListBox.js"></script>
         <script src="js/service/Store.js"></script>
 
-        <script src="js/component/element/dyTextInput.js"></script>
-        <script src="js/component/element/dyListBox.js"></script>
-        <script src="js/component/element/dyButton.js"></script>
-        <script src="js/component/element/dyButtonCancel.js"></script>
-        <script src="js/component/element/dyForm.js"></script>
-        <script src="js/component/element/dyGrid.js"></script>
+        <script src="js/component/factories/dyTextInput.js"></script>
+        <script src="js/component/factories/dyListBox.js"></script>
+        <script src="js/component/factories/dyButton.js"></script>
+        <script src="js/component/factories/dyButtonCancel.js"></script>
+        <script src="js/component/factories/dyForm.js"></script>
+        <script src="js/component/factories/dyGrid.js"></script>
     </head>
     <body ng-controller="prosapiaCtrl">
         <div id="prosapiaMenu" class="menu">
-            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyMdcList')">Medicamento</button-submit><br>
-            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyDsgList')">Dosagem</button-submit><br>
-            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyMvtList')">Movimentação</button-submit><br>
-            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyTypList')">Tipo de Movimentação</button-submit><br>
+            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyMdcList', true)">Medicamento</button-submit><br>
+            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyDsgList', true)">Dosagem</button-submit><br>
+            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyMvtList', true)">Movimentação</button-submit><br>
+            <button-submit class="addButton" ng-click="eventBus.fireEvent('createDyTypList', true)">Tipo de Movimentação</button-submit><br>
         </div>
-    <root-panel event-bus="eventBus"></root-panel>
+    <root-panel-directive event-bus="eventBus"></root-panel-directive>
 </body>
 </html>

@@ -8,14 +8,18 @@ angular.module("prosapia").directive('gridBuilderDirective', function ($compile,
             modelList: "@",
             listName: "@",
             addForm: "@",
-            gridName: "@"
+            gridName: "@",
+            clearSelection: "@"
         },
         link: link
     };
     function link(scope) {
-        scope.chkChange = false;
+        const LIST_NAME = 0;
+        const OBJ_NAME = 1;
+        const PROP_NAME = 2;
+        scope.chkChanged = false;
         scope.changeSelection = function (index) {
-            scope.chkChange = true;
+            scope.chkChanged = true;
             let isChecked = scope.Store.getList(scope.listName)[index].selected;
             if (isChecked) {
                 scope.eventBus.fireEvent("incSelectedItemCount");
@@ -25,7 +29,7 @@ angular.module("prosapia").directive('gridBuilderDirective', function ($compile,
         }
 
         scope.changeRowSelection = function (index) {
-            if (!scope.chkChange) {
+            if (!scope.chkChanged) {
                 let isChecked = !scope.Store.getList(scope.listName)[index].selected;
                 if (isChecked) {
                     scope.eventBus.fireEvent("incSelectedItemCount");
@@ -34,7 +38,7 @@ angular.module("prosapia").directive('gridBuilderDirective', function ($compile,
                 }
                 scope.Store.getList(scope.listName)[index].selected = isChecked;
             }
-            scope.chkChange = false;
+            scope.chkChanged = false;
         }
 
         let newGrid = document.createElement('TABLE');
@@ -80,8 +84,9 @@ angular.module("prosapia").directive('gridBuilderDirective', function ($compile,
             scope.Store.getList(scope.modelList).forEach(function (model) {
                 TD = document.createElement('TD');
                 TD.className = "gridItem";
-                if (model.includes(".") && row[model.split(".")[0]]) {
-                    TD.appendChild(document.createTextNode(row[model.split(".")[0]][model.split(".")[1]]));
+                if (model.includes(".") && row[model.split(".")[OBJ_NAME]]) {
+                    let value = scope.Store.getItemPropertyById(model.split(".")[LIST_NAME], row[model.split(".")[OBJ_NAME]], model.split(".")[PROP_NAME]);
+                    TD.appendChild(document.createTextNode(value));
                 } else {
                     if (!row[model]) {
                         TD.appendChild(document.createTextNode(""));
@@ -96,7 +101,7 @@ angular.module("prosapia").directive('gridBuilderDirective', function ($compile,
         });
         $compile(newGrid)(scope);
         if (scope.addForm) {
-            scope.eventBus.fireEvent("displayContent", [newGrid, true, scope.addForm, scope.gridName]);
+            scope.eventBus.fireEvent("displayContent", [newGrid, true, scope.addForm, scope.gridName, scope.clearSelection]);
         } else {
             scope.eventBus.fireEvent("displayContent", [newGrid, true]);
         }
@@ -145,8 +150,18 @@ angular.module("prosapia").directive('gridBuilderDirective', function ($compile,
             }
         }
 
+        scope.clearSelectedItems = function (gridName) {
+            if (scope.gridName === gridName) {
+                scope.Store.getList(scope.listName).forEach(function (item) {
+                    item.selected = false;
+                });
+            }
+            scope.eventBus.fireEvent("setSelectedItemCount", 0);
+        }
+
         scope.eventBus.addListener("showSelected", scope.showSelected);
         scope.eventBus.addListener("removeSelected", scope.removeSelected);
         scope.eventBus.addListener("reviewSelectedItems", scope.reviewSelectedItems);
+        scope.eventBus.addListener("clearSelectedItems", scope.clearSelectedItems);
     }
 });

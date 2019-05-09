@@ -1,4 +1,4 @@
-angular.module("prosapia").directive('buttonDirective', function ($compile, FormElement) {
+angular.module("prosapia").directive('buttonDirective', function ($compile) {
     return {
         scope: {
             listName: "@",
