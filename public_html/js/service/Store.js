@@ -46,16 +46,18 @@ angular.module("prosapia").factory('Store', function () {
                 this.store.get(key)[idx] = item;
             }
             if (modList && modAttName && modAttProp && item) {
-                if (this.store.get(modList).includes(item[modAttName])) {
-                    let indx = this.store.get(modList).indexOf(item[modAttName]);
-                    let newValue = (this.store.get(modList)[indx][modAttProp] || 0);
-                    if (item.type.id === ENTRADA) {
+                let idx = this.store.get(key).indexOf(this.store.get(key).filter(function (itm) {
+                    return itm.id === item[modAttName];
+                })[0]);
+                if (idx != null) {
+                    let newValue = (this.store.get(modList)[idx][modAttProp] || 0);
+                    if (item.type === ENTRADA) {
                         modValue = Math.abs(item[modAttProp]);
-                    } else if (item.type.id === SAIDA) {
+                    } else if (item.type === SAIDA) {
                         modValue = Math.abs(item[modAttProp]) * -1;
                     }
                     newValue = newValue + modValue;
-                    this.store.get(modList)[indx][modAttProp] = newValue;
+                    this.store.get(modList)[idx][modAttProp] = newValue;
                 }
             }
         },

@@ -165,11 +165,11 @@ angular.module("prosapia").controller("prosapiaCtrl", function ($scope, $compile
         $scope.Store.addItem("dosageList", {name: "Mg"});
         $scope.Store.addItem("dosageList", {name: "Ml"});
         $scope.Store.addItem("dosageList", {name: "Unidade"});
-        let dosage = {id: 2, name: "Ml"};
-        let dosagel = {id: 3, name: "Unidade"};
-        let nfo = "Agua(" + dosage.name + ")";
-        $scope.Store.addItem("medicineList", {name: "Agua", dosage: 2, quantity: "0", info: nfo});
-        $scope.Store.addItem("medicineList", {name: "Limão", dosage: 3, quantity: "0", info: nfo});
+//        let dosage = {id: 2, name: "Ml"};
+//        let dosagel = {id: 3, name: "Unidade"};
+//        let nfo = "Agua(" + dosage.name + ")";
+        $scope.Store.addItem("medicineList", {name: "Agua", dosage: 2, quantity: 0});
+        $scope.Store.addItem("medicineList", {name: "Limão", dosage: 3, quantity: 0});
         $scope.Store.addItem("typeList", {name: "Entrada"});
         $scope.Store.addItem("typeList", {name: "Saída"});
     }
