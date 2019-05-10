@@ -1,4 +1,4 @@
-angular.module("prosapia").factory('ButtonCancel', function () {
+angular.module("prosapia").factory('buttonCancel', function () {
 
     function build(elmInfo) {
         let buttonCancel = document.createElement('button-directive');
@@ -6,9 +6,6 @@ angular.module("prosapia").factory('ButtonCancel', function () {
         if (elmInfo.click) {
             buttonCancel.setAttribute("ng-click", elmInfo.click);
         }
-//        else if (elmInfo.returnTo) {
-//            buttonCancel.setAttribute("ng-click", "cancelOperation(\'" + elmInfo.returnTo + "\')");
-//        }
         buttonCancel.setAttribute("label", "Cancelar")
         buttonCancel.setAttribute("type", "CANCEL");
         buttonCancel.className = "camcelButton";
